@@ -1,0 +1,169 @@
+{% set activeMenu = 'user' %}
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}Profile Page!{% endblock %}
+{% block stylesheets  %}
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datetimepicker.min.css ') }}">
+{% endblock %}
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white p-4 mb-4 card">
+        <h4 class="card-title mb-0 d-inline-block">Espace profil :  </h4>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 col-sm-12 d-flex">
+            <div class="card flex-fill ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Informations Personnel</h4>
+                </div>
+                <div class="card-body">
+                    <div class="media mb-4">
+                        <img class="rounded mr-3 img-fluid" src="{{ asset('images/users/'~ user.filename) }}" alt="avatar image" width="50" height="50">
+                        <div class="media-body">
+                            <p class="text-dark text-ellipsis">
+                                {% if(app.user.civility==1) %} Mr
+                                {% else %}
+                                    Mme
+                                {% endif %}
+                                {{app.user.firstName}} {{app.user.lastName }}
+                            </p>
+                            <p class="ctm-text-sm mb-0 text-ellipsis">{{app.user.nationality}}</p>
+                            <p class="ctm-text-sm mb-0 text-ellipsis">{{app.user.phoneNumber}}</p>
+                            <p class="ctm-text-sm mb-0 text-ellipsis">{{app.user.email}}</p>
+
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="javascript:void(0)" class="btn btn-theme ctm-border-radius text-white btn-sm" data-toggle="modal" data-target="#edit_basicInformation"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 d-flex">
+
+            <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow">
+                {% for message in app.flashes('warning') %}
+                    <div class="alert alert-danger">
+                        <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Photo du Profil</h4>
+                </div>
+
+
+                <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="avatar-upload">
+                                    {{ include('TO/user/_form.html.twig', {'button_label': 'Update'}) }}
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        {% for message in app.flashes('error') %}
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12 d-flex alert alert-danger">
+                <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('success2') %}
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12 d-flex alert alert-success">
+                <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 d-flex">
+
+            <div class="card flex-fill ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Modifier Mot du passe</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ path('user_updatepassword',{'id':app.user.id }) }}"  method="post" enctype='multipart/form-data'>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" placeholder="Old Password" name="oldpassword" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-theme ctm-border-radius text-white" type="button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" class="form-control" placeholder="New Password" name="password" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-theme ctm-border-radius text-white" type="button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="Confirme New Password" name="c_password" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-theme ctm-border-radius text-white" type="button"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div class="text-left mt-3">
+                            <button type="submit"   class="btn btn-theme text-white ctm-border-radius button-1"  style="align-content:center; margin-top: 1em">Valider</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit_basicInformation">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title mb-3" style="text-align: center; color: #dc3545">Informations globales</h4>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Nom" value="{{ app.user.lastName }}" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Prenom" value="{{ app.user.firstName }}" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Email" value="{{app.user.email}}" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Nationalité" value="{{app.user.nationality}}" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control datetimepicker date-enter" type="text" placeholder="Date de naissance" value="{{ app.user.dateOfBirth |date('d/m/Y')}}" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Genre" value=" {% if(app.user.civility==1) %} Mr
+                                {% else %}
+                                Mme
+                                {% endif %}" disabled>
+                    </div>
+
+                    <button type="button" class="btn btn-danger float-right ml-3" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Contact The Modal -->
+
+{% endblock %}
+{% block script %}
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% set activeMenu= 'advanced' %}
+{% extends 'layouts/app.html.twig' %}
+{% block title %}
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white p-4 mb-4 ">
+        <ul class="list-group list-group-horizontal-lg">
+           <li> <a class="  d-block text-dark">
+                Espace avance
+               </a> </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-header">
+            <h4 class="cursor-pointer mb-0">
+                <a class="  d-block text-dark">
+
+                 <span class="ctm-text-sm">Formulaire du demande d'avance</span>
+                </a>
+
+                <a href="{{ path('advanced_list') }}" class="btn btn-theme button text-white ctm-border-radius p-2 add-person ctm-btn-padding float-right"> Mon historique</a>
+
+            </h4>
+        </div>
+        <div class="card-body p-0">
+            <div id="basic-one" class="collapse show ctm-padding" aria-labelledby="basic1" data-parent="#accordion-details">
+                <form action="{{path('new_advanced') }}" method="POST">
+                    <div class="row">
+                        <div class="col-sm-6 leave-col" style="display:none">
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" class="form-control" disabled placeholder="10" value="{{ app.user.lastName }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 leave-col" style="display:none">
+                            <div class="form-group">
+                                <label>Prenom</label>
+                                <input type="text" class="form-control" placeholder="10" disabled="" value="{{ app.user.firstName }}" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Date de depot</label>
+                                <input type="text" class="form-control " disabled="" value="{{ 'now'|date('d-m-Y') }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 leave-col">
+                            <div class="form-group">
+                                <label>Montant (
+                                    {% if  app.user.department.company.country=="France" %}
+                                        EURO
+                                    {% endif %}
+                                    {% if  app.user.department.company.country=="Tunis" %}
+                                        TND
+                                    {% endif %}
+                                    {% if  app.user.department.company.country=="L'île Maurice" %}
+                                        MUR
+                                    {% endif %}
+                                    )
+                                    <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="amount" min="1" max="1000000" step="any" required>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <button type="submit" class="btn btn-theme button-1 text-white ctm-border-radius mt-4">Envoyer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+{% endblock %}

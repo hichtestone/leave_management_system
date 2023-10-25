@@ -1,0 +1,17 @@
+{% extends 'layouts/app.html.twig' %}
+{% block body %}
+    <div class="card shadow-sm ctm-border-radius grow">
+
+        <div class="card-body align-center">
+            <div class="tab-content" id="v-pills-tabContent">
+                <form method="post" action="{{ path('excelAdministrative') }}" enctype='multipart/form-data'>
+                    <input type="file" id="file" name="file">
+                    {#            <a href="{{ path('excelDemand') }}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding" style="float:right">#}
+                    {#                <i ></i>Valider#}
+                    {#            </a>#}
+                    <button   class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding" style="float:right">Valider</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

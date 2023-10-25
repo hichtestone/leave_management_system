@@ -1,0 +1,424 @@
+<!-- Loader -->
+<div id="loader-wrapper">
+    <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+
+<!-- Header -->
+<header class="header">
+
+    <!-- Top Header Section -->
+    <div class="top-header-section">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-6">
+                    <div class="logo my-3 my-sm-0">
+                        <a href="{{ path('home') }}">
+							{% if is_granted('ROLE_ADMIN') %}
+							{% if app.session.get('company') is null %}
+
+							{% elseif app.session.get('company') is defined%}
+
+								{{ render(controller(
+									'App\\Controller\\HomeController::getcomp'
+								)) }}
+
+							{% endif %}
+							{% elseif is_granted('ROLE_SUPER_ADMIN') %}
+							{% else %}
+{#							<img src="{{asset('images/companies/' ~app.user.department.company.logo)  }}" alt="logo image" class="img-fluid" style="width: 100px ; height: 100px">#}
+							{% endif %}
+						</a>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-6 text-right">
+                    <div class="user-block d-none d-lg-block">
+                        <div class="row align-items-center">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+
+                                <!-- User notification-->
+                                <div class="user-notification-block align-right d-inline-block">
+                                    {% if is_granted("ROLE_TO") %}
+                                    {{ render(controller(
+                                        'App\\Controller\\HomeController::notifTo'
+                                    )) }}
+                                    {% elseif is_granted("ROLE_RESPONSABLE") %}
+                                        {{  render(controller(
+                                            'App\\Controller\\HomeController::notifTo'
+                                        )) }}
+                                    {% elseif is_granted("ROLE_DIRECTEUR") %}
+                                    {{ render(controller(
+                                        'App\\Controller\\HomeController::notifDirecteurAdmin'
+                                    )) }}
+									{% elseif is_granted('ROLE_ADMIN') %}
+										{{ render(controller (
+											'App\\Controller\\HomeController::notifDirecteurAdmin'
+										)) }}
+									{% elseif is_granted("ROLE_SUPER_ADMIN") %}
+										{{ render(controller(
+											'App\\Controller\\HomeController::notifSuperAdmin'
+										)) }}
+                                    {% endif %}
+                                </div>
+                                <!-- /User notification-->
+
+                                <!-- user info-->
+                                <div class="user-info align-right dropdown d-inline-block header-dropdown">
+                                    <a href="javascript:void(0)" data-toggle="dropdown" class=" menu-style dropdown-toggle">
+                                        <div class="user-avatar d-inline-block">
+
+                                            <img src="{{ asset('assets/img/img.jpeg') }} " alt="user avatar" class="rounded-circle img-fluid" style="opacity: 0.3;" width="55">
+
+
+                                        </div>
+                                    </a>
+
+                                    <!-- Notifications -->
+                                    <div class="dropdown-menu notification-dropdown-menu shadow-lg border-0 p-3 m-0 dropdown-menu-right">
+                                        <a class="dropdown-item p-2" href="{{ path('user_show',{'id': app.user.id}) }}">
+														<span class="media align-items-center">
+															<span class="lnr lnr-user mr-3"></span>
+															<span class="media-body text-truncate">
+																<span class="text-truncate">Profil</span>
+															</span>
+														</span>
+                                        </a>
+										{# <a class="dropdown-item p-2" href="{{ path('demo') }}">
+														<span class="media align-items-center">
+															<span class="lnr lnr-inbox mr-3"></span>
+															<span class="media-body text-truncate">
+																<span class="text-truncate">démonstration </span>
+															</span>
+														</span>
+										</a> #}
+                                       {% if is_granted('ROLE_ADMIN') %}
+										<a class="dropdown-item p-2" href="{{ path('choiceCompany') }}">
+														<span class="media align-items-center">
+															<span class="lnr lnr-apartment mr-3"></span>
+															<span class="media-body text-truncate">
+																<span class="text-truncate">Choix de l'entreprise </span>
+															</span>
+														</span>
+										</a>
+										{% endif %}
+
+										<a class="dropdown-item p-2" href="{{ path('app_logout') }}">
+														<span class="media align-items-center">
+															<span class="lnr lnr-power-switch mr-3"></span>
+															<span class="media-body text-truncate">
+																<span class="text-truncate">se déconnecter </span>
+															</span>
+														</span>
+										</a>
+                                    </div>
+                                    <!-- Notifications -->
+
+                                </div>
+                                <!-- /User info-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-block d-lg-none">
+                        <a href="javascript:void(0)">
+                            <span class="lnr lnr-user d-block display-5 text-white" id="open_navSidebar"></span>
+                        </a>
+
+                        <!-- Offcanvas menu -->
+                        <div class="offcanvas-menu" id="offcanvas_menu">
+                            <span class="lnr lnr-cross float-left display-6 position-absolute t-1 l-1 text-white" id="close_navSidebar"></span>
+                            <div class="user-info align-center bg-theme text-center">
+                                <a href="javascript:void(0)" class="d-block menu-style text-white">
+                                    <div class="user-avatar d-inline-block mr-3">
+										{% if  (constant('CIVILITY', app.user)[app.user.civility] == 'Mr') %}
+											<img src="{{ asset('assets/images/man.png') }}" alt="user avatar" class="rounded-circle img-fluid" width="100">
+										{% elseif  (constant('CIVILITY', app.user)[app.user.civility] == 'Ms') %}
+											<img src="{{ asset('assets/images/woman.png') }}" alt="user avatar" class="rounded-circle img-fluid" width="100">
+										{% endif %}
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="user-notification-block align-center">
+                                <div class="top-nav-search">
+                                    <form>
+                                        <input type="text" class="form-control" placeholder="Search here">
+                                        <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="user-menu-items px-3 m-0">
+                                {% if  is_granted('ROLE_TO') %}
+                                    <a class="px-0 pb-2 pt-0" href="{{ path('home') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-home mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Dashboard</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('demand_index') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-briefcase mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Demande</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('administratif') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-license mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Administratifs</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('advanced') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-gift mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Demander Avance</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('user_show', {'id':app.user.id}) }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-user mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Profil</span>
+													</span>
+												</span>
+                                    </a>
+									<a class="p-2" href="{{ path('app_logout') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-power-switch mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">se déconnecter</span>
+													</span>
+												</span>
+									</a>
+								{% elseif  is_granted('ROLE_ADMIN') %}
+									<a class="px-0 pb-2 pt-0" href="{{ path('home') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-home mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Dashboard</span>
+													</span>
+												</span>
+									</a>
+                                    <a class="p-2" href="{{ path('demandAdmin') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-briefcase mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Demande</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('listeAc') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-calendar-full mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Calendrier</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('department') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-apartment mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Départements</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('user_show', {'id':app.user.id}) }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-user mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Profil</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('app_logout') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-power-switch mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">se déconnecter</span>
+													</span>
+												</span>
+                                    </a>
+                                {% elseif  is_granted('ROLE_RESPONSABLE') %}
+                                    <a class="px-0 pb-2 pt-0" href="{{ path('home') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-home mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Dashboard</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('demandResp_index') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-briefcase mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Demande</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('administratif') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-license mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Administratifs</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('advanced') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-gift mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Demander Avance</span>
+													</span>
+												</span>
+                                    </a>
+									<a class="p-2" href="{{ path('callendarRes') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-calendar-full mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Calendrier</span>
+													</span>
+												</span>
+									</a>
+                                    <a class="p-2" href="{{ path('user_show', {'id':app.user.id}) }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-user mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Profil</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="{{ path('app_logout') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-power-switch mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">se déconnecter</span>
+													</span>
+												</span>
+                                    </a>
+								{% elseif is_granted('ROLE_DIRECTEUR') %}
+									<a class="px-0 pb-2 pt-0" href="{{ path('home') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-home mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Dashboard</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('demand') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-briefcase mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Demande</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('user_management') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-users mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Employés</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('administratif') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-license mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Administratifs</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('advanced') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-gift mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Demander Avance</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('listeDc') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-calendar-full mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Calendrier</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('user_show', {'id':app.user.id}) }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-user mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Profil</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('app_logout') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-power-switch mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">se déconnecter</span>
+													</span>
+												</span>
+									</a>
+								{% elseif  is_granted('ROLE_SUPER_ADMIN') %}
+									<a class="px-0 pb-2 pt-0" href="{{ path('home') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-home mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Dashboard</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="">
+												<span class="media align-items-center">
+													<span class="lnr lnr-apartment mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Entreprise</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('user_show', {'id':app.user.id}) }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-user mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Profil</span>
+													</span>
+												</span>
+									</a>
+									<a class="p-2" href="{{ path('app_logout') }}">
+												<span class="media align-items-center">
+													<span class="lnr lnr-power-switch mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">se déconnecter</span>
+													</span>
+												</span>
+									</a>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        <!-- /Offcanvas menu -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Top Header Section -->
+
+</header>
+<!-- /Header -->

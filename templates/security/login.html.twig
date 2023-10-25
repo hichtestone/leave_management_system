@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dleohr.dreamguystech.com/template-2/dleohr-vertical/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Apr 2021 12:28:27 GMT -->
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')  }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon/favicon-16x16.png')  }}">
+    <link rel="manifest" href="{{asset('favicon/site.webmanifest')  }}">
+    <link rel="mask-icon" href="{{asset('favicon/safari-pinned-tab.svg')  }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css ') }}">
+
+    <!-- Linearicon Font -->
+    <link rel="stylesheet" href="{{asset('assets/css/lnr-icon.css')  }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{asset('assets/css/font-awesome.min.css')  }}">
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')  }}">
+
+    <title>Login Page</title>
+
+
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader-wrapper">
+
+    <div class="loader">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+
+<!-- Main Wrapper -->
+<div class="inner-wrapper login-body">
+    <div class="login-wrapper">
+        <div class="container">
+            <div class="loginbox shadow-sm grow">
+                <div class="login-left" style="opacity: 0.8">
+                    <img  src="{{asset('assets/logo/altra.svg')  }}" style="max-width:none; width: 380px">
+                </div>
+                <div class="login-right">
+                    <div class="login-right-wrap">
+
+
+                        <form method="post">
+                            {% if error %}
+                                <div class="alert alert-danger">Merci de verifier vos identifiant</div>
+                            {% endif %}
+
+                            {% if app.user %}
+                                <div class="mb-3">
+                                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                </div>
+                            {% endif %}
+
+                            <h1 class="h3 mb-3 font-weight-normal">Se Connecter</h1>
+                            <div class="form-group">
+                                <input type="text" value="{{ last_username }}" name="username" id="inputEmail" placeholder="Domaine\nom d'utilisateur :" class="form-control" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" placeholder="Mot de passe" id="inputPassword" class="form-control" required>
+                            </div>
+
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}">
+                            <div class="form-group">
+                                <button class="btn btn-theme button-1 text-white ctm-border-radius btn-block" type="submit">
+                                    Se connecter
+                                </button>
+                            </div>
+                        </form>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Main Wrapper -->
+
+
+<!-- jQuery -->
+<script src="{{asset('assets/js/jquery-3.2.1.min.js')  }}"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{{asset('assets/js/popper.min.js')  }}"></script>
+<script src="{{asset('assets/js/bootstrap.min.js')  }}"></script>
+
+<!-- Sticky sidebar JS -->
+<script src="{{asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js')  }}"></script>
+<script src="{{asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js')  }}"></script>
+
+<!-- Custom Js -->
+<script src="{{asset('assets/js/script.js')  }}"></script>
+
+</body>
+
+<!-- Mirrored from dleohr.dreamguystech.com/template-2/dleohr-vertical/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Apr 2021 12:28:29 GMT -->
+</html>

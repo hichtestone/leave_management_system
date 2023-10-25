@@ -1,0 +1,90 @@
+<div class="card-body">
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-sm-6 leave-col">
+            <div class="form-group">
+                <label>Nom de l'entreprise</label>
+                {{ form_widget(form.name) }}
+                <div class="form-error" style="color: red">
+                    {{ form_errors(form.name) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 leave-col">
+            <div class="form-group">
+                <label>Logo de l'entreprise</label>
+                {% if edit %}
+                {{ form_widget(form.imageFile  , {'attr' : {'value' : company.logo ? company.logo : '', 'placeholder': company.logo ? company.logo : ''}} ) }}
+                {% else %}
+                {{  form_widget(form.imageFile )}}
+                {% endif  %}
+                <div class="form-error" style="color: red">
+                    {{ form_errors(form.imageFile) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 leave-col">
+            <label>Adresse</label>
+            {{ form_widget(form.adress) }}
+            <div class="form-error" style="color: red">
+                {{ form_errors(form.adress,  {'attr': {'id': 'ship-address'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 leave-col">
+            <div class="form-group">
+                <label>Pays</label>
+                {{ form_widget(form.country) }}
+                <div class="form-error" style="color: red">
+                    {{ form_errors(form.country) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 leave-col">
+            <div class="form-group">
+                <label>Code postal</label>
+                {{ form_widget(form.zipcode, {'attr' : {'id' : 'postcode'}}) }}
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 leave-col">
+            <div class="form-group">
+                <label>Numéro de télephone</label>
+                {{ form_widget(form.phoneNumber) }}
+            </div>
+        </div>
+        <div class="col-sm-6 leave-col">
+            <div class="form-group">
+                <label>Adresse du Site</label>
+                {{ form_widget(form.site) }}
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 leave-col">
+            <div class="form-group">
+                <label>Email</label>
+                {{ form_widget(form.email) }}
+            </div>
+        </div>
+        <div class="col-sm-6 leave-col">
+            <div class="form-group">
+                <label>Admin</label>
+                {{ form_widget(form.users) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 form-group">
+        <div class="submit-section text-left btn-add">
+            <button type="submit" class="btn btn-theme button-1 text-white ctm-border-radius">
+                {% if app.request.get('_route') == 'edit_company' %} Modifier {% else %}Enregistrer {% endif %}</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>

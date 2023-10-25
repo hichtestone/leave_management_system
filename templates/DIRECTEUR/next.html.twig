@@ -1,0 +1,231 @@
+{% extends 'layouts/app.html.twig' %}
+{% block title %} liste {% endblock %}
+{% block nav %}
+
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+            <h4 class="card-title float-left mb-0 mt-2"><p class="profile-info-widget"> Liste des jours feriés</p></h4>
+
+
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+
+                    Jours Feriés Tunisie
+                   </span>
+                </div>
+
+                <div class="card-body">
+                    <div class="tab-pane py-0 active">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+
+                                    <th>Date</th>
+                                    <th>Dénomination</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tablecontent">
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+
+                    Jours Feriés France
+                    </a> </span>
+                </div>
+
+                <div class="card-body">
+                    <div class="tab-pane py-0 active">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+
+                                    <th>Date</th>
+                                    <th>Dénomination</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tablecontent1">
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+
+                    Jours Feriés L'ile Maurice
+                    </a> </span>
+                </div>
+
+                <div class="card-body">
+                    <div class="tab-pane py-0 active">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+
+                                    <th>Date</th>
+                                    <th>Dénomination</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tablecontent2">
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(e) {
+            var yearsystem= new Date().getFullYear()+1;
+            var calendarUrl;
+
+
+
+            calendarUrl ='https://www.googleapis.com/calendar/v3/calendars/fr.tn%23holiday%40group.v.calendar.google.com/events?&key=AIzaSyDSv5bVcFiRRsi65Wctct2AIuxZ74MzZy0&orderBy=starttime&singleEvents=true';
+            console.log("test jj");
+            var tbody= document.getElementById("tablecontent");
+            let array=['Jour de l’an','Fête de l’Indépendance','Journée des Martyrs','Fête du travail','Aïd el Fitr','Aïd el Fitr','Aïd el Kébir','Aïd el Kébir','Fête de la République','Jour de l’an de l’Hégire','Fête de la Femme','Mouled','Fête de l’évacuation','Fête de la Révolution']
+            let array1=['New Year','Independence Day',"Martyrs' Day",'Labour Day','Eid al-Fitr','Eid al-Fitr Holiday','Eid al-Adha','Eid al-Adha Holiday','Republic Day','Muharram',"Women's and Family Day","The Prophet's Birthday",'Evacuation Day','Revolution and Youth Day']
+
+            $.getJSON(calendarUrl)
+                .success(function(data) {
+                    console.log("data",data);
+                    for (item in data.items) {
+                        if(new Date(data.items[item].start.date).getFullYear()==yearsystem){
+                            var tr=document.createElement('tr');
+                            var td1=document.createElement('td');
+                            var textcontenttd1=(document.createTextNode(data.items[item].start.date));
+                            td1.appendChild(textcontenttd1);
+                            var td2=document.createElement('td');
+                            let index=array1.indexOf(data.items[item].summary);
+                            var textcontenttd2=document.createTextNode(array[index]);
+
+                            console.log("array",array1.indexOf(data.items[item].summary));
+                            td2.appendChild(textcontenttd2);
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tbody.append(tr);
+                        }
+                    }
+
+                })
+                .error(function(error) {
+                    console.log(error);
+                })
+
+        })
+
+
+    </script>
+    <script>
+        $(document).ready(function(e) {
+            var yearsystem= new Date().getFullYear()+1
+            var calendarUrl;
+
+
+
+            calendarUrl ='https://www.googleapis.com/calendar/v3/calendars/fr.french%23holiday%40group.v.calendar.google.com/events?&key=AIzaSyDSv5bVcFiRRsi65Wctct2AIuxZ74MzZy0&orderBy=starttime&singleEvents=true';
+            console.log("test jj");
+            var tbody= document.getElementById("tablecontent1");
+
+
+            $.getJSON(calendarUrl)
+                .success(function(data) {
+                    console.log("data",data);
+                    for (item in data.items) {
+                        if(new Date(data.items[item].start.date).getFullYear()==yearsystem){
+                            var tr=document.createElement('tr');
+                            var td1=document.createElement('td');
+                            var textcontenttd1=(document.createTextNode(data.items[item].start.date));
+                            td1.appendChild(textcontenttd1);
+                            var td2=document.createElement('td');
+
+                            var textcontenttd2=document.createTextNode(data.items[item].summary);
+                            td2.appendChild(textcontenttd2);
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tbody.append(tr);
+                        }
+                    }
+
+                })
+                .error(function(error) {
+                    console.log(error);
+                })
+
+        })
+
+
+    </script>
+    <script>
+        $(document).ready(function(e) {
+            var yearsystem= new Date().getFullYear()+1;
+            var calendarUrl;
+
+
+
+            calendarUrl ='https://www.googleapis.com/calendar/v3/calendars/fr.mu%23holiday%40group.v.calendar.google.com/events?&key=AIzaSyDSv5bVcFiRRsi65Wctct2AIuxZ74MzZy0&orderBy=starttime&singleEvents=true';
+            console.log("test jj");
+            var tbody= document.getElementById("tablecontent2");
+
+
+            $.getJSON(calendarUrl)
+                .success(function(data) {
+                    console.log("data",data);
+                    for (item in data.items) {
+                        if(new Date(data.items[item].start.date).getFullYear()==yearsystem){
+                            var tr=document.createElement('tr');
+                            var td1=document.createElement('td');
+                            var textcontenttd1=(document.createTextNode(data.items[item].start.date));
+                            td1.appendChild(textcontenttd1);
+                            var td2=document.createElement('td');
+
+                            var textcontenttd2=document.createTextNode(data.items[item].summary);
+                            td2.appendChild(textcontenttd2);
+                            tr.appendChild(td1);
+                            tr.appendChild(td2);
+                            tbody.append(tr);
+                        }
+                    }
+
+                })
+                .error(function(error) {
+                    console.log(error);
+                })
+
+        })
+
+
+    </script>
+{% endblock %}

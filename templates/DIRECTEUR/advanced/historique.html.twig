@@ -1,0 +1,60 @@
+{% extends 'layouts/app.html.twig' %}
+{% block title %} {% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">  Historique des demandes d'avance sur salaire
+
+                </div>
+
+                <div class="card-body">
+                    <div class="employee-office-table">
+                        <div class="table-responsive" >
+                            <table class="table custom-table mb-0 " >
+                                <thead style="color: #6c757d">
+                                <tr>
+                                    <th>Nom d'employeur</th>
+                                    <th>Prenom d'employeur</th>
+                                    <th>Date de depot</th>
+                                    <th>Montant</th>
+                                    <th>Status</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for advance in advanced %}
+                                    <tr>
+                                        <td>
+                                            <h2><a>{{ advance.user.firstName ?  advance.user.firstName : '' }}</a></h2>
+                                        </td>
+                                        <td>{{ advance.user.lastName ?  advance.user.lastName : '' }}</td>
+                                        <td>{{ advance.filingAt ? advance.filingAt|date('Y-m-d') : '' }}</td>
+                                        <td>{{ advance.amount }}
+                                            {% if  advance.user.department.company.country=="France" %}
+                                                EURO
+                                            {% endif %}
+                                            {% if  advance.user.department.company.country=="Tunis" %}
+                                                TND
+                                            {% endif %}
+                                            {% if  advance.user.department.company.country=="L'île Maurice" %}
+                                                MUR
+                                            {% endif %}
+                                        </td>
+                                        <td><a class="btn btn-theme ctm-border-radius text-white btn-sm">{{ constant('STATUS', advance)[advance.status] }}</a></td>
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %} {% endblock %}

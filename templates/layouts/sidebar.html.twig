@@ -1,0 +1,283 @@
+{% set route_name = app.request.attributes %}
+
+
+<div class="col-xl-3 col-lg-4 col-md-12 theiaStickySidebar">
+    <aside class="sidebar sidebar-user">
+        <div class="row">
+            <div class="col-12">
+                <div class="card ctm-border-radius shadow-sm grow">
+                    <div class="card-body py-4">
+                        <div class="row">
+                            <div class="col-md-12 mr-auto text-left">
+                                <div class="custom-search input-group">
+                                    <div class="custom-breadcrumb">
+                                        <ol class="breadcrumb no-bg-color d-inline-block p-0 m-0 mb-2">
+                                            <li class="breadcrumb-item d-inline-block"><a href="{{ path('home') }}"
+                                                                                          class="text-dark">Accueil</a>
+                                            </li>
+                                            <li class="breadcrumb-item d-inline-block active">Tableau de bord</li>
+                                        </ol>
+                                        <h4 class="text-dark">Mon tableau de bord</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="user-card card shadow-sm bg-white text-center ctm-border-radius grow">
+            <div class="user-info card-body">
+                <div class="user-avatar mb-4">
+                    {% if  (constant('CIVILITY', app.user)[app.user.civility] == 'Mr') %}
+                        <img src="{{ asset('assets/images/man.png') }}" alt="user avatar"
+                             class="rounded-circle img-fluid" width="100">
+                    {% elseif  (constant('CIVILITY', app.user)[app.user.civility] == 'Ms') %}
+                        <img src="{{ asset('assets/images/woman.png') }}" alt="user avatar"
+                             class="rounded-circle img-fluid" width="100">
+                    {% endif %}
+                </div>
+                <div class="user-details">
+                    <h4><b> Bonjour <span style="text-transform: capitalize;">{{ app.user.firstName }}</span> <span style="text-transform: uppercase;"  >{{ app.user.lastName }} </span>
+
+                        </b>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <!-- Sidebar -->
+
+        <div class="sidebar-wrapper d-lg-block d-md-none d-none">
+            <div class="card ctm-border-radius shadow-sm border-none grow">
+                <div class="card-body">
+                    <div class="row no-gutters">
+                        {% if  is_granted('ROLE_TO') %}
+                            <div class="col-6 align-items-center text-center">
+                                <a href="{{ path('home') }}"
+                                   class=" p-4 first-slider-btn ctm-border-right ctm-border-left ctm-border-top {% if app.request.get('_route') == 'home' %} active text-white {% else %}text-dark{% endif %}"><span
+                                            class="lnr lnr-home pr-0 pb-lg-2 font-23"></span><span class="">Page d'acceuil</span></a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('demand_index') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'demand_index' or app.request.get('_route') == 'demand_new' %} active text-white {% else %} text-dark {% endif %}"><span
+                                            class="lnr lnr-briefcase pr-0 pb-lg-2 font-23"></span><span
+                                            class="">Congés</span></a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('administratif') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'administratif'  or app.request.get('_route') == 'historique' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-license pr-0 pb-lg-2 font-23"></span><span class="">administratif</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('advanced') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'advanced' or app.request.get('_route') == 'advanced_list' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-gift pr-0 pb-lg-2 font-23"></span><span class="row">Avance sur salaire</span>
+                                </a>
+                            </div>
+{#                            <div class="col-6 align-items-center shadow-none text-center">#}
+{#                                <a href="{{ path('user_show', {'id':app.user.id}) }}"#}
+{#                                   class=" p-4 last-slider-btn ctm-border-right {% if app.request.get('_route') == 'user_show' %} active text-white {% else %}text-dark{% endif %} "><span#}
+{#                                            class="lnr lnr-user pr-0 pb-lg-2 font-23"></span><span#}
+{#                                            class="">Profil</span></a>#}
+{#                            </div>#}
+
+                        {% elseif  is_granted('ROLE_ADMIN') %}
+
+                            <div class="col-6 align-items-center text-center">
+
+                                <a href="{% if app.session.get('company') is not null %}{{ path('gethome', {'id' : app.session.get('company')}) }} {% else %} {{ path('home') }} {% endif %}"
+                                   class=" p-4 first-slider-btn ctm-border-right ctm-border-left ctm-border-top {% if app.request.get('_route') == 'home' or app.request.get('_route') == 'gethome' or app.request.get('_route') == 'choiceCompany' %} active text-white {% else %}text-dark{% endif %}"><span
+                                            class="lnr lnr-home pr-0 pb-lg-2 font-23"></span><span class="">Page d'acceuil</span></a>
+                            </div>
+
+                            <div class="col-6 align-items-center shadow-none text-center" {% if app.session.get('company') is null %} style="pointer-events: none" {% endif %}>
+                                <a href="{{ path('demand_admin') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'demandAdmin' or app.request.get('_route') == 'demandADnew' or app.request.get('_route') == 'demandADedit' or app.request.get('_route') == 'demand_admin' or app.request.get('_route') == 'demand_analyse_admin' %} active text-white {% else %} text-dark {% endif %}"><span
+                                            class="lnr lnr-briefcase pr-0 pb-lg-2 font-23"></span><span
+                                            class="">Congés</span></a>
+                            </div>
+{#                            <div class="col-6 align-items-center shadow-none text-center" >#}
+{#                                <a href="{{ path('user_show', {'id':app.user.id}) }}"#}
+{#                                   class=" p-4 last-slider-btn ctm-border-right {% if app.request.get('_route') == 'user_show' %} active text-white {% else %}text-dark{% endif %} "><span#}
+{#                                            class="lnr lnr-user pr-0 pb-lg-2 font-23"></span><span#}
+{#                                            class="">Profil</span></a>#}
+{#                            </div>#}
+                            <div class="col-6 align-items-center shadow-none text-center" id="admSlect" {% if app.session.get('company') is null %} style="pointer-events: none" {% endif %}>
+                                <a href="{{ path('listeAc') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'listeAc' %}active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-calendar-full pr-0 pb-lg-2 font-23"></span><span class="">Calendrier</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('indexFerieeAdmin') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'indexregle' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-gift pr-0 pb-lg-2 font-23"></span><span class="row">Jours Feriés</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center" {% if app.session.get('company') is null %} style="pointer-events: none" {% endif %}>
+                                <a href="{{ path('department') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'department' or app.request.get('_route') == 'new_departement' or app.request.get('_route') == 'edit_departement' or app.request.get('_route') == 'departement_show' %} active text-white {% else %} text-dark {% endif %}"><span
+                                            class="lnr lnr-apartment pr-0 pb-lg-2 font-23"></span><span class="">Département</span></a>
+                            </div>
+                        {% elseif  is_granted('ROLE_RESPONSABLE') %}
+
+                            <div class="col-6 align-items-center text-center">
+                                <a href="{{ path('home') }}"
+                                   class=" p-4 first-slider-btn ctm-border-right ctm-border-left ctm-border-top {% if app.request.get('_route') == 'home' %} active text-white {% else %}text-dark{% endif %}"><span
+                                            class="lnr lnr-home pr-0 pb-lg-2 font-23"></span><span class="">Page d'acceuil</span></a>
+                            </div>
+
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('demandResp_index') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'demandResp_index' or app.request.get('_route') == 'demandResp_new' %} active text-white {% else %} text-dark {% endif %}"><span
+                                            class="lnr lnr-briefcase pr-0 pb-lg-2 font-23"></span><span
+                                            class="">Congés</span></a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('administratif') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'administratif' or app.request.get('_route') == 'historique' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-license pr-0 pb-lg-2 font-23"></span><span class="">administratif</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('advanced') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'advanced' or app.request.get('_route') == 'advanced_list' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-gift pr-0 pb-lg-2 font-23"></span><span class="row">Avance sur salaire</span>
+                                </a>
+                            </div>
+
+{#                            <div class="col-6 align-items-center shadow-none text-center">#}
+{#                                <a href="{{ path('user_show', {'id':app.user.id}) }}"#}
+{#                                   class=" p-4 last-slider-btn ctm-border-right {% if app.request.get('_route') == 'user_show' %} active text-white {% else %}text-dark{% endif %} "><span#}
+{#                                            class="lnr lnr-user pr-0 pb-lg-2 font-23"></span><span#}
+{#                                            class="">Profil</span></a>#}
+{#                            </div>#}
+
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('callendarRes') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'callendarRes' %}active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-calendar-full pr-0 pb-lg-2 font-23"></span><span class="">Calendrier</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('indexFerieeResp') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'indexregle' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-gift pr-0 pb-lg-2 font-23"></span><span class="row">Jours Feriés</span>
+                                </a>
+                            </div>
+                        {% elseif is_granted('ROLE_DIRECTEUR') %}
+                            <div class="col-6 align-items-center text-center">
+                                <a href="{{ path('home') }}"
+                                   class=" p-4 first-slider-btn ctm-border-right ctm-border-left ctm-border-top {% if app.request.get('_route') == 'home' %} active text-white {% else %}text-dark{% endif %}"><span
+                                            class="lnr lnr-home pr-0 pb-lg-2 font-23"></span><span class="">Page d'acceuil</span></a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('demand') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'demand_index' or app.request.get('_route') == 'demandDrnew' or app.request.get('_route') == 'demandDR' or app.request.get('_route') == 'demandDredit'  or app.request.get('_route') == 'demand' or app.request.get('_route') == 'demand_analyse' %} active text-white {% else %} text-dark {% endif %}"><span
+                                            class="lnr lnr-briefcase pr-0 pb-lg-2 font-23"></span><span
+                                            class="">Congés</span></a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('indexregle') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'indexregle' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-gift pr-0 pb-lg-2 font-23"></span><span class="row">Règle de calcul</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('user_management') }}"
+                                   class="p-4 last-slider-btn ctm-border-right {% if app.request.get('_route') == 'user_management' %} active text-white {% else %}text-dark{% endif %}"><span
+                                            class="lnr lnr-users pr-0 pb-lg-2 font-23"></span><span
+                                            class="">Employés</span></a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('advanced_admin') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'advanced' or app.request.get('_route') == 'advanced_list' or app.request.get('_route') == 'advanced_admin' or app.request.get('_route') == 'advanced_list_directeur' or app.request.get('_route') == 'advancedDr' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-gift pr-0 pb-lg-2 font-23"></span><span class="row">Avance sur salaire</span>
+                                </a>
+                            </div>
+
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('administratif_sended') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'administratif' or app.request.get('_route') == 'historique' or app.request.get('_route') == 'administratifDr' or app.request.get('_route') =='administratif_sended' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-license pr-0 pb-lg-2 font-23"></span><span class="">administratif</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('listeDc') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'listeDc' %}active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-calendar-full pr-0 pb-lg-2 font-23"></span><span class="">Calendrier</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('indexFeriee') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'indexregle' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-gift pr-0 pb-lg-2 font-23"></span><span class="row">Jours Feriés</span>
+                                </a>
+                            </div>
+{#                            <div class="col-6 align-items-center shadow-none text-center">#}
+{#                                <a href="{{ path('user_show', {'id':app.user.id}) }}"#}
+{#                                   class=" p-4 last-slider-btn ctm-border-right {% if app.request.get('_route') == 'user_show' %} active text-white {% else %}text-dark{% endif %} "><span#}
+{#                                            class="lnr lnr-user pr-0 pb-lg-2 font-23"></span><span#}
+{#                                            class="">Profil</span></a>#}
+{#                            </div>#}
+                        {% elseif  is_granted('ROLE_SUPER_ADMIN') %}
+
+                            <div class="col-6 align-items-center text-center">
+                                <a href="{{ path('home') }}"
+                                   class=" p-4 first-slider-btn ctm-border-right ctm-border-left ctm-border-top {% if app.request.get('_route') == 'home' %} active text-white {% else %}text-dark{% endif %}"><span
+                                            class="lnr lnr-home pr-0 pb-lg-2 font-23"></span><span class="">Page d'acceuil</span></a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('demand_super_admin') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'demand_super_admin' or app.request.get('_route') == 'demand_analyse_super_admin' %} active text-white {% else %} text-dark {% endif %}"><span
+                                            class="lnr lnr-briefcase pr-0 pb-lg-2 font-23"></span><span
+                                            class="">Congés</span></a>
+                            </div>
+
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('super_admin_company') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'super_admin_company' or app.request.get('_route') == 'new_campany' or app.request.get('_route') == 'edit_company' or app.request.get('_route') == 'company_show' %} active text-white {% else %} text-dark {% endif %}"><span
+                                            class="lnr lnr-apartment pr-0 pb-lg-2 font-23"></span><span class="">Entreprise</span></a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('superadmin_callendar') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'superadmin_callendar' or app.request.get('_route') == 'calendar_company_super' %}active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-calendar-full pr-0 pb-lg-2 font-23"></span><span class="">Calendrier</span>
+                                </a>
+                            </div>
+                            <div class="col-6 align-items-center shadow-none text-center">
+                                <a href="{{ path('indexFerieeSuper') }}"
+                                   class="p-4 ctm-border-right ctm-border-left {% if app.request.get('_route') == 'indexregle' %} active text-white {% else %} text-dark {% endif %} ">
+                                    <span class="lnr lnr-gift pr-0 pb-lg-2 font-23"></span><span class="row">Jours Feriés</span>
+                                </a>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                    {% if app.request.get('_route') == 'listeAc' or app.request.get('_route') == 'superadmin_callendar'  or app.request.get('_route') == 'calendar_company_super' or app.request.get('_route') == 'listeDc' or app.request.get('_route') == 'callendarRes '%}
+
+                        <div class="card ctm-border-radius shadow-sm grow" id="admin-part" style="margin-top: 2em;">
+                        <div class="card-body">
+                            <h4 class="card-title">Couleur d état des congés </h4>
+                            <div id="calendar-events" class="mb-3">
+                                <div class="calendar-events ui-draggable ui-draggable-handle" data-class="bg-info" style="position: relative;"><i class="fa fa-circle text-info"></i> Demande envoyée</div>
+                                <div class="calendar-events ui-draggable ui-draggable-handle" data-class="bg-success" style="position: relative;"><i class="fa fa-circle text-success"></i> Demande acceptée</div>
+                                <div class="calendar-events ui-draggable ui-draggable-handle" data-class="bg-danger" style="position: relative;"><i class="fa fa-circle text-danger"></i> Demande refusée</div>
+                                <div class="calendar-events ui-draggable ui-draggable-handle" data-class="bg-theme" style="position: relative;"><i class="fa fa-circle text-theme"></i> Demande en cours de traitement</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- /Sidebar -->
+
+    </aside>
+</div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.j"></script>
+<script>
+
+</script>

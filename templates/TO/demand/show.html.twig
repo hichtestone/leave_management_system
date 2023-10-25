@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demand{% endblock %}
+
+{% block body %}
+    <h1>Demand</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ demand.id }}</td>
+            </tr>
+            <tr>
+                <th>StartDate</th>
+                <td>{{ demand.startDate ? demand.startDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EndDate</th>
+                <td>{{ demand.endDate ? demand.endDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Reason</th>
+                <td>{{ demand.reason }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ constant('STATUS', demand)[demand.status] }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ demand.description }}</td>
+            </tr>
+            <tr>
+                <th>FilingDate</th>
+                <td>{{ demand.filingDate ? demand.filingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Emergency</th>
+                <td>{{ demand.emergency }}</td>
+            </tr>
+            <tr>
+                <th>IsCancled</th>
+                <td>{{ demand.isCancled ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('t_o_demand_index') }}">back to list</a>
+
+    <a href="{{ path('t_o_demand_edit', {'id': demand.id}) }}">edit</a>
+
+    {{ include('TO/demand/_delete_form.html.twig') }}
+{% endblock %}

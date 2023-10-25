@@ -1,0 +1,235 @@
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block nav %}
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+            <h4 class="card-title float-left mb-0 mt-2"><p class="profile-info-widget"> Historique des demandes des congés</p></h4>
+            <ul class="nav nav-tabs float-right border-0 tab-list-emp">
+                <li class="nav-item pl-3">
+                    <a href="{{ path('Historique') }}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding">
+                        <i class="fa fa-eye"></i>Historique
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+            <h4 class="card-title float-left mb-0 mt-2"><p class="profile-info-widget"> Importer un fichier</p></h4>
+            <ul class="nav nav-tabs float-right border-0 tab-list-emp">
+                <li class="nav-item pl-3">
+                    <a href="{{ path('uploaddemand') }}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding">
+                        <i class="fa fa-upload"></i>Importer
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+            <h4 class="card-title float-left mb-0 mt-2"><p class="profile-info-widget"> Liste des demandes des congés</p></h4>
+            <ul class="nav nav-tabs float-right border-0 tab-list-emp">
+                <li class="nav-item pl-3">
+                    <a href="{{ path('demandDR') }}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding">
+                        <i class="fa fa-eye"></i>Mes demandes
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+{% block body %}
+    <div class="card shadow-sm ctm-border-radius grow">
+
+        <div class="card-body align-center">
+            <div class="tab-content" id="v-pills-tabContent">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('danger') %}
+                    <div class="alert alert-danger">
+                        <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% if app.request.get('_route') == 'demand_analyse' %}
+
+                {% endif %}
+                {% for message in app.flashes('warning') %}
+                    <div class="alert alert-danger">
+                        <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                        {{ message }}
+                        <a data-toggle="modal" data-target="#show1" data-placement="bottom"  href="javascript:void(0)">, cliquer ici pour approuver  </a>
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('info') %}
+                    <div class="alert alert-info">
+                        <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                        {{ message }} {% if result !=0 and result is defined  %}, cliquer ici pour plus d'info {% endif%} <a data-toggle="modal" data-target="#show" data-placement="bottom"  href="javascript:void(0)">{% if result !=0 and result is defined  %}utilisateurs concernés {% endif %}</a>
+                    </div>
+                {% endfor %}
+                <!-- Tab1-->
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div class="employee-office-table">
+                        <div class="table-responsive">
+                            <table class="table custom-table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Utilisateur</th>
+                                    <th>Résponsable hiérarchique</th>
+                                    <th>Reférence</th>
+                                    <th>Date de dépot</th>
+                                    <th>1ér jour de congé</th>
+                                    <th>Dernier jour de congé</th>
+                                    <th>Raison</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for demand in demands %}
+                                <tr>
+                                    <td>
+                                        <h2><a > {{ demand.user ? demand.user.firstName : '' }} {{ demand.user ? demand.user.lastName : '' }}</a></h2>
+                                    </td>
+                                    <td>{{ demand.user.user ? demand.user.user.firstName : '' }} {{ demand.user.user ? demand.user.user.lastName : '' }}</td>
+                                    <td>{{ demand.ref ? demand.ref : '' }}</td>
+                                    <td>{{ demand.filingDate ? demand.filingDate|date('Y-m-d ') : '' }}</td>
+                                    <td>{{ demand.startDate ? demand.startDate|date('Y-m-d ') : '' }}</td>
+                                    <td> {{ demand.endDate ? demand.endDate|date('Y-m-d ') : '' }}</td>
+                                    <td>{{ demand.reason ? demand.reason : '' }}</td>
+
+                                    <td  >
+                                        <div class="dropdown action-label drop-active">
+                                            <a href="javascript:void(0)" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                {{ constant('STATUS', demand)[demand.status] }} <i class="caret"></i></a>
+                                            <div class="dropdown-menu" {% if demand.status == "Validé" %} style="display:none"{% endif %}>
+                                                <a class="dropdown-item demand_update_send {% if constant('STATUS_IN_PROGRESS', demand) == demand.status %}  disabled {% endif %}" href="javascript:void(0)" data-id="{{ demand.id }}"> En cours du traitement</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table-action">
+                                            <a href="{{ path('approuve_demand', {'id' : demand.id}) }}" class="btn btn-sm btn-outline-success">
+                                                <span class="lnr lnr-checkmark-circle"></span> Approuver
+                                            </a>
+                                            <a href="{{ path('reject_demand', {'id' : demand.id}) }}" class="btn btn-sm btn-outline-danger" >
+                                                <span class="lnr lnr-cross"></span> Rejeter
+                                            </a>
+                                            <a href="{{ path('demand_analyse', {'id' : demand.id}) }}" class="btn btn-sm btn-outline-info" >
+                                                <span class="lnr lnr-sort-amount-asc"></span> Analyser
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                             {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!--/Tab 1-->
+
+                <!-- Tab2-->
+                <!-- /Tab 2-->
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="show" >
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content" style="width: 500px">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="employee-office-table">
+                            <div class="table-responsive">
+                                <table class="table custom-table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Utilisateur</th>
+                                        <th>Résponsable hiérarchique:</th>
+                                        <th>Nombre des jours</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for demand in anaylse %}
+                                        <tr>
+                                            <td>
+                                                {#  <a  class="avatar"><img class="img-fluid" alt="avatar image" src="images/users/{{ demand.user.filename ? demand.user.user : '' }}"></a>#}
+                                                <h2><a > {{ demand.user ? demand.user.firstName : '' }} {{ demand.user ? demand.user.lastName : '' }}</a></h2>
+                                            </td>
+                                            <td>{{ demand.user.user ? demand.user.user.firstName : '' }} {{ demand.user.user ? demand.user.user.lastName : '' }}</td>
+                                            <td>{% set days_number=date(demand.startDate).diff(date(demand.endDate)).format("%R%a") %} {{ days_number+1 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{#modal confirmation#}
+    <div class="modal fade" id="show1" >
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content" style="width: 500px">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="employee-office-table">
+                            <p>Voulez Vous Confirmer l'accord ?</p>
+                            {% if demand is defined %}
+                            <a href="{{ path('forcerDemand', {'id' : demand.id}) }}" class="btn btn-sm btn-outline-success"   >
+                                Confirmer la demande
+                            </a>
+                            {% endif %}
+{#                            <a href="" class="btn btn-sm btn-outline-danger"   >#}
+{#                                Annuler la demande#}
+{#                            </a>#}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+
+
+            $(document).ready(function() {
+
+                $('.demand_update_send').click(function(){
+                    var id = $(this).data("id");
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'GET',
+                        url: "{{ path('update_demand_send') }}",
+                        data: { id : id },
+                        complete: function(data) {
+                            location.reload();
+                        }
+                    });
+                });
+
+        })
+    </script>
+
+{% endblock %}

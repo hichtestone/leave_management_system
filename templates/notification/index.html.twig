@@ -1,0 +1,222 @@
+{% set activeMenu= 'demand' %}
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}New Demand{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white card">
+        <div class="card-body">
+            <ul class="list-group list-group-horizontal-lg">
+                <li class="list-group-item text-center active button-5"><a href="" class="text-white">Notifications</a></li>
+            </ul>
+
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="col-md-12">
+        <div class="company-doc">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+                    <h4 class="card-title d-inline-block mb-0">
+                        Notifications Demandes des congés
+                    </h4>
+                    <a href="javascript:void(0)" class="float-right add-doc text-primary" data-toggle="modal" data-target="#addDocument">
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="employee-office-table">
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                <tr>
+                                    <th>Message</th>
+                                    <th>Date de Notification</th>
+                                    <th>Détail Demande</th>
+                                    <th>Envoyée par</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for notif in notifications %}
+                                    {% if notif.demand is not null %}
+                                <tr>
+                                    <td class="text-primary">
+                                        {% if constant('NOTIF_CLIENT_ADD', notif) == notif.message %}
+                                            <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                        {% endif %}
+                                        {% if constant('NOTIF_CLIENT_EDIT', notif) == notif.message %}
+                                        <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                        {% endif %}
+                                        {% if constant('NOTIF_ADMIN_PROGRESS', notif) == notif.message %}
+                                            <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                        {% endif %}
+                                        {% if constant('NOTIF_ADMIN_ACCEPTED', notif) == notif.message %}
+                                                <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"><span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                        {% endif %}
+
+                                        {% if constant('NOTIF_ADMIN_REFUSED', notif) == notif.message %}
+                                                    <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"><span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                        {% endif %}
+                                    </td>
+                                    <td><a href="javascript:void(0)" class="text-primary">{{ notif.createdAt ? notif.createdAt|date('Y-m-d H:i:s') : '' }}</a></td>
+                                    <td>
+                                        {{ notif.demand.reason }}
+                                    </td>
+                                    <td>
+                                        {{ notif.demand.user.firstName }} {{ notif.demand.user.lastName }}
+                                    </td>
+                                    <td class="text-right text-success">
+                                        <div class="table-action">
+                                            <a href="javascript:void(0);" class="notification_update btn btn-sm btn-outline-success"  data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}">
+                                                <span  class="lnr lnr-spell-check"></span> Marquée comme lu
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                    {% endif %}
+                             {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      {% if not is_granted('ROLE_SUPER_ADMIN') %}
+        <div class="company-doc">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+                    <h4 class="card-title d-inline-block mb-0">
+                        Notifications Demandes Attestations Administratives
+                    </h4>
+                    <a href="javascript:void(0)" class="float-right add-doc text-primary" data-toggle="modal" data-target="#addDocument">
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="employee-office-table">
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                <tr>
+                                    <th>Message</th>
+                                    <th>Date d'envoie de la demande</th>
+                                    <th>Type d'attestation</th>
+                                    <th>Envoyée par</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for notif in notifications %}
+                                    {% if notif.administrativeDemand is not null %}
+                                        <tr>
+                                            <td class="text-primary">
+                                                {% if constant('NOTIF_ADMIN_ADMINISTRATIVE', notif) == notif.message %}
+                                                    <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                                {% endif %}
+                                                {% if constant('NOTIF_CLIENT_ADMINISTRATIVE', notif) == notif.message %}
+                                                    <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                                {% endif %}
+
+                                            </td>
+                                            <td><a href="javascript:void(0)" class="text-primary">{{ notif.createdAt ? notif.createdAt|date('Y-m-d H:i:s') : '' }}</a></td>
+                                            <td>
+                                                {% if constant('TYPE_TRAVAIL', notif.administrativeDemand) == notif.administrativeDemand.type %}
+                                                    <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('TYPE', notif.administrativeDemand)[notif.administrativeDemand.type] }}</b> </span> </a>
+                                                {% endif %}
+                                                {% if constant('TYPE_TITULARISATION', notif.administrativeDemand) == notif.administrativeDemand.type %}
+                                                    <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('TYPE', notif.administrativeDemand)[notif.administrativeDemand.type] }}</b> </span> </a>
+                                                {% endif %}
+                                                {% if constant('TYPE_SALAIRE', notif.administrativeDemand) == notif.administrativeDemand.type %}
+                                                    <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('TYPE', notif.administrativeDemand)[notif.administrativeDemand.type] }}</b> </span> </a>
+                                                {% endif %}
+
+                                            </td>
+                                            <td>
+                                                {{ notif.administrativeDemand.user.firstName }} {{ notif.administrativeDemand.user.lastName }}
+                                            </td>
+                                            <td class="text-right text-success">
+                                                <div class="table-action">
+                                                    <a href="javascript:void(0);" class="notification_update btn btn-sm btn-outline-success"  data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}">
+                                                        <span  class="lnr lnr-spell-check"></span> Marquée comme lu
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="company-doc">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+                    <h4 class="card-title d-inline-block mb-0">
+                        Notifications Demandes Avances sur salaire
+                    </h4>
+                    <a href="javascript:void(0)" class="float-right add-doc text-primary" data-toggle="modal" data-target="#addDocument">
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="employee-office-table">
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                <tr>
+                                    <th>Message</th>
+                                    <th>Date d'envoie de la demande</th>
+                                    <th>Montant de l'avance </th>
+                                    <th>Envoyée par</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for notif in notifications %}
+                                    {% if notif.advance is not null %}
+                                        <tr>
+                                            <td class="text-primary">
+                                                {% if constant('NOTIF_ADMIN_ADVANCED', notif) == notif.message %}
+                                                    <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                                {% endif %}
+                                                {% if constant('NOTIF_CLIENT_ADVANCED', notif) == notif.message %}
+                                                    <a data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}" class="notification_update"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </a>
+                                                {% endif %}
+
+                                            </td>
+                                            <td><a href="javascript:void(0)" class="text-primary">{{ notif.createdAt ? notif.createdAt|date('Y-m-d H:i:s') : '' }}</a></td>
+                                            <td>
+                                                {{ notif.advance.amount }}
+                                            </td>
+                                            <td>
+                                                {{ notif.advance.user.firstName }} {{ notif.advance.user.lastName }}
+                                            </td>
+                                            <td class="text-right text-success">
+                                                <div class="table-action">
+                                                    <a href="javascript:void(0);" class="notification_update btn btn-sm btn-outline-success"  data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}">
+                                                        <span  class="lnr lnr-spell-check"></span> Marquée comme lu
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

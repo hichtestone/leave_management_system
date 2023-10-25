@@ -1,0 +1,214 @@
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}Liste des Entreprises{% endblock %}
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white p-4 mb-4 ">
+        <ul class="list-group list-group-horizontal-lg">
+            <h4 class="card-title float-left mb-0 mt-2">
+                <li>
+                    <span class=" float-left">
+                        <a class="  d-block text-dark d-inline-block ">Listes des entreprises</a>
+                    </span>
+                </li>
+            </h4>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+
+                <li> <span class=" float-left"> <a  class="  d-block text-dark d-inline-block  text-primary">
+                    Affecter à un administrateur <i  data-toggle="modal" data-target="#delete" class=" fa fa-plus" style="margin-left: 3px; display: none" id="check"></i>
+                </a> </span>
+                </li>
+            <li>
+                <a href="{{ path('new_campany') }}" class="float-right add-doc text-primary">Ajouter une nouvelle entreprise</a>
+            </li>
+
+        </div>
+    </div>
+    <div id="listemployes" class="ctm-border-radius shadow-sm grow card">
+        <div class="card-body">
+
+            <!--Content table-->
+            <div class="table-back employee-office-table">
+                <div class="table-responsive">
+                    <table class="table custom-table table-hover table-hover">
+                        <thead>
+                        <tr>
+                            <th>  </th>
+                            <th>Nom de l'entreprise</th>
+                            <th>Adresse</th>
+                            <th>Pays</th>
+                            <th>Date de création</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for company in companies %}
+                            <tr>
+                                <td>
+                                    <input name="{{ company.id }}" id="{{ company.id }}" value="{{ company.id }}" data-id= {{ company.id }} class="check-box" type="checkbox">
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" data-id="{{ company.id }}" data-toggle="modal" data-target=".exampleModalCenter{{ company.id }}" class="avatar"><img alt="avatar image" src="{{ asset('images/companies/' ~company.logo) }}" class="img-fluid"></a>
+
+                                    <h2><a href="{{ path('company_show',{'id':company.id}) }}">{{ company.name}} </a></h2>
+                                </td>
+                                <td><a> {{ company.adress}} </a></td>
+
+                                <td><a> {{ company.country }}  </a></td>
+
+
+                                <td>
+                                    {{ company.createdAt? company.createdAt|date('Y-m-d') : '' }}
+                                </td>
+                                <td>{{ company.email }}</td>
+                                <td class="text-right text-danger">
+                                    <div class="table-action">
+                                        <a href="{{ path('edit_company',{'id' : company.id}) }}" class="btn btn-sm btn-outline-success">
+                                            <span class="lnr lnr-pencil"></span> Modifier
+                                        </a>
+                                        <span data-toggle="modal" data-target="#deleteCompany" data-id="{{ company.id }}" data-url="{{ path('delete_company', {'id': company.id}) }}" class="demand-delate">
+                                                    <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger" id="cost" >
+                                                        <span class="lnr lnr-trash"></span> supprimer
+                                                    </a>
+                                                    </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /Content Table -->
+
+        </div>
+    </div>
+    <div class="modal fade" id="delete">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title mb-3">Associé utilisateur</h4>
+
+                     <div>
+                                <select id="userselect" class="form-group js-example-basic-multiple" multiple="multiple" style="width: 300px; height: 100px">
+                                    {% for user in admin %}
+                                    <option value="{{ user.id }}">{{ user.firstName }} {{ user.lastName }}</option>
+                                    {% endfor %}
+                                </select>
+                     </div>
+                   <div style="margin-top: 2em">
+                    <button type="button" class="btn btn-danger ctm-border-radius float-left ml-3" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-theme text-white ctm-border-radius float-right button-1" id="validee">Associé</button>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteCompany">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title mb-4">Voulez-vous vraiment supprimer cette entreprise?</h4>
+                    <button  type="button" class="btn btn-danger text-white ctm-border-radius text-center mb-2 mr-3"  data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-theme text-white ctm-border-radius text-center mb-2 button-1" data-dismiss="modal" id="valideess">Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        $(document).ready(function () {
+            let tab= [];
+            let userid=[];
+            $(".check-box").change(function(event) {
+                    var checkbox = event.target;
+                    if (checkbox.checked) {
+                        $("#check").show()
+                        var checked = $(this).data('id');
+                        tab.push($(this).attr("id"));
+                    } else {
+                        var index = tab.indexOf($(this).attr("id"));
+                        tab.splice(index,1);
+                        if (tab.length==0){
+                        $("#check").hide();}
+                    }
+
+
+
+            })
+            $("#userselect").change(function (){
+                userid.push($(this).val());
+              //  console.log(userid);
+            })
+            $("#validee").click(function (reload) {
+                //userid = document.getElementById('userselect').value;
+                var selected = [];
+                for (var option of document.getElementById('userselect').options) {
+                    if (option.selected) {
+                        selected.push(option.value);
+                    }
+                }
+                console.log(selected)
+                $.ajax({
+                    type: 'GET',
+                    data: {tab: tab, userid: selected},
+                    url: "{{ path('affectAdmin') }}",
+                    dataType: 'json',
+                  complete: function(data) {
+                        location.reload();
+                    }
+                });
+
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $(".demand-delate").click(function(){
+                var documentId = $(this).attr('data-id');
+                var urls = $(this).data('url');
+                console.log(urls)
+                $("#cost").attr("title", "new title not working");
+
+                $("#valideess").click(function (reaload_on_return){
+                    $.ajax({
+                        type: 'POST',
+                        data: {id: documentId},
+                        url: urls,
+                        dataType: 'json',
+                        success: function (data) {
+                            $('#informationdemand').html(data.view).css('display','block');}
+
+                    });
+                if (reaload_on_return){
+                        setTimeout(
+                            function (){
+                                location.reload();
+                            }, 0001);
+                    }
+                });
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+{% endblock %}

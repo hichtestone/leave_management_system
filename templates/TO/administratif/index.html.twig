@@ -1,0 +1,87 @@
+{% set activeMenu= 'demand' %}
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}New Demand{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+{% block nav %}
+
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white p-4 mb-4 ">
+        <ul class="list-group list-group-horizontal-lg">
+            <li> <a class="  d-block text-dark">
+                    Demandes Administratives
+                </a> </li>
+        </ul>
+    </div>
+
+{% endblock %}
+{% block body %}
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-header">
+            <h4 class="cursor-pointer mb-0">
+                <a class="  d-block text-dark">
+
+                    <span class="ctm-text-sm">Formulaire de demande Administrative</span>
+                </a>
+
+                <a href="{{ path('hist_list') }} " class="btn btn-theme button text-white ctm-border-radius p-2 add-person ctm-btn-padding float-right"> Mon historique</a>
+
+            </h4>
+        </div>
+        <div class="card-body p-0">
+            <div id="basic-one" class="collapse show ctm-padding" aria-labelledby="basic1" data-parent="#accordion-details">
+                <form action="{{ path('new_administrative_demande')}}" method="POST">
+                    <div class="row">
+                        <div class="col-sm-6 leave-col" style="display:none">
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" class="form-control" disabled placeholder="10" value="{{ app.user.lastName }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 leave-col" style="display:none">
+                            <div class="form-group">
+                                <label>Prenom</label>
+                                <input type="text" class="form-control" placeholder="10" disabled="" value="{{ app.user.firstName }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Date de depot</label>
+                                <input type="text" class="form-control " disabled="" value="{{ 'now'|date('d-m-Y') }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 leave-col">
+                            <div class="form-group">
+                                <label>Type d'attestation <span class="text-danger">*</span></label>
+                                <select class="form-control" name="type" required>
+                                    <option value="">Merci de choisir le type d'attestation souhaité</option>
+                                    <option value=1>Attestaion de travail</option>
+                                    <option value=2>Attestation de titularisation</option>
+                                    <option value=3>Attestation de salaire</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Observation</label>
+                                <input type="text" name="observation" id="observation" class="form-control"   value="">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="text-left">
+                        <button type="submit" class="btn btn-theme button-1 text-white ctm-border-radius mt-4">Envoyer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

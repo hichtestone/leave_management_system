@@ -1,0 +1,91 @@
+{% set activeMenu = 'advanced' %}
+{% extends 'layouts/app.html.twig' %}
+{% block title %}
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white p-4 mb-4 ">
+        <ul class="list-group list-group-horizontal-lg">
+            <li> <a class="  d-block text-dark">
+                    Historique de vos demandes
+                </a> </li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    {% for message in app.flashes('advancedadd') %}
+        <div class="alert alert-info">
+            <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('attestationadd') %}
+        <div class="alert alert-info">
+            <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+    <div class="col-lg-6 col-md-12 d-flex">
+        <div class="card shadow-sm flex-fill grow">
+            <div class="card-header">
+                <h4 class="card-title mb-0 d-inline-block">Demande d'avance sur salaire </h4>
+                <a  href="{{ path('advanced') }}" class="d-inline-block float-right text-primary"><i class="fa fa-plus" title="Déposer une demande d'avance"></i></a>
+            </div>
+            {% if advanced is not empty %}
+                {% for adv in advanced %}
+            <div class="card-body text-center">
+                <div class="time-list">
+                    <div class="dash-stats-list">
+                        <span class="btn btn-outline-warning">{{ adv.filingAt ? adv.filingAt|date('Y-m-d') : '' }}</span>
+                        <p class="mb-0">Date de la demande</p>
+                    </div>
+                    <div class="dash-stats-list">
+                        <span class="btn btn-outline-primary">  {{ adv.amount ? adv.amount: '' }}
+                            {% if  adv.user.department.company.country=="France" %}
+                                EURO
+                            {% endif %}
+                            {% if  adv.user.department.company.country=="Tunis" %}
+                                TND
+                            {% endif %}
+                            {% if  adv.user.department.company.country=="L'île Maurice" %}
+                                MUR
+                            {% endif %}
+                        </span>
+                        <p class="mb-0">Montant Demandé</p>
+                    </div>
+                    {% if constant('STATUS_SENT', adv) == adv.status %}
+                    <div class="dash-stats-list">
+                        <span class="btn btn-outline-info">{{ constant('STATUS', adv)[adv.status] }}</span>
+                        <p class="mb-0">Statut</p>
+                    </div>
+                    {% endif %}
+                    {% if constant('STATUS_DONE', adv) == adv.status %}
+                        <div class="dash-stats-list">
+                            <span class="btn btn-outline-success">{{ constant('STATUS', adv)[adv.status] }}</span>
+                            <p class="mb-0">Statut</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+                {% endfor %}
+            {% elseif advanced is empty %}
+{#                <div class="card-body text-center">#}
+{#                    <div class="time-list">#}
+{#                        <div class="stats-list">#}
+
+{#                            <span style="align-items: center">Aucune demande sur salaire est déposé</span>#}
+{#                        </div>#}
+
+
+{#                    </div>#}
+{#                </div>#}
+            {% endif %}
+        </div>
+    </div>
+
+    </div>
+{% endblock %}
+{% block script %}
+{% endblock %}

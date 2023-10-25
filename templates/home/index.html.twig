@@ -1,0 +1,490 @@
+{% extends 'layouts/app.html.twig' %}
+
+
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm bg-white card grow">
+        <div class="card-body">
+            <ul class="list-group list-group-horizontal-lg">
+
+                {% if  is_granted('ROLE_TO') or is_granted('ROLE_RESPONSABLE')%}
+                <li class="d-block text-dark "> Tableau de bord {% if is_granted('ROLE_TO') %} téléopérateur {% else %} responsable{% endif %} </li>
+                {% endif %}
+                {% if  is_granted('ROLE_ADMIN') %}
+                    <li class="d-block text-dark">Tableau de bord Administrateur</li>
+
+                {% elseif is_granted('ROLE_DIRECTEUR') %}
+                    <li class="d-block text-dark">Tableau de bord directeur</li>
+            {% elseif is_granted('ROLE_SUPER_ADMIN') %}
+                    <li class="d-block text-dark">Tableau de bord SUPER ADMIN</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <!-- Widget -->
+    <div class="row">
+        {% if  is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTEUR') %}
+           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <div class="card dash-widget ctm-border-radius shadow-sm grow">
+                <div class="card-body">
+                    <div class="card-icon bg-primary">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="card-right">
+                        <h4 class="card-title">Employés</h4>
+
+                        <p class="card-text">{{ app.user.responsable.count }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <div class="col-xl-6 col-lg-6 col-sm-6 col-12">
+            <div class="card dash-widget ctm-border-radius shadow-sm grow">
+                <div class="card-body">
+                    <div class="card-icon bg-danger">
+                        <i class="fa fa-suitcase" aria-hidden="true"></i>
+                    </div>
+                    <div class="card-right">
+                        <h4 class="card-title">Employés quités</h4>
+                        <p class="card-text">3</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <!-- / Widget -->
+    <!-- Chart -->
+    {% if  is_granted('ROLE_ADMIN')  or is_granted('ROLE_SUPER_ADMIN') %}
+        <div class="row">
+            <div class="col-md-6 d-flex">
+                <div class="card ctm-border-radius shadow-sm flex-fill grow">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Total Employees</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pieChartAdmin"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card ctm-border-radius shadow-sm flex-fill grow">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Statistiques des demandes</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pieChartcongesRes"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / Chart -->
+
+
+    {% elseif  is_granted('ROLE_DIRECTEUR') %}
+        <div class="row">
+            <div class="col-md-6 d-flex">
+                <div class="card ctm-border-radius shadow-sm flex-fill grow">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Total Employees</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pieChartAdmin"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card ctm-border-radius shadow-sm flex-fill grow">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Statistique des demandes</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pieChartcongesRes"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / Chart -->
+        <div class="row">
+            <div class="col-md-12 d-flex">
+                <div class="card ctm-border-radius shadow-sm flex-fill grow">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Statistique des congés par département</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="lineChartres"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    {% endif %}
+    {% if  is_granted('ROLE_TO') or is_granted('ROLE_RESPONSABLE') %}
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 col-md-6 col-12 d-flex">
+                <div class="card ctm-border-radius shadow-sm grow flex-fill">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Liste des jours fériés </h4>
+{#                        <a href="" class="btn btn-sm btn-outline-danger" style="float:right" >#}
+{#                            <i  class="fa fa-chevron-right" onclick="next()"></i>#}
+{#                        </a>#}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content py-0" id="pills-tabContent">
+                                    <div class="tab-pane py-0 active" id="tabs-1" role="tabpanel">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+
+                                                    <th>Date</th>
+                                                    <th>Dénomination</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="tablecontent">
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-12 col-md-6 col-12 ">
+                <div class="row">
+                    <div class="card flex-fill ctm-border-radius shadow-sm grow">
+                        <div class="card-header">
+                            <h4 class="card-title mb-0">Détails</h4>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Année</h5>
+                            <p class="mb-0">01 Janvier – 31 Décembre</p>
+                            <hr>
+                            <h5 class="card-title">Jours utilisés
+                            </h5>
+                            <div class="progress">
+                                <div class="progress-bar bg-primary w-50">{{soldeconsomme}} jours</div>
+                            </div>
+                            <hr>
+                            <h5 class="card-title">Solde Congés restant</h5>
+                            <p>{{ app.user.solde }}</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="card flex-fill ctm-border-radius shadow-sm grow">
+                        <div class="card-header">
+                            <div class="col-11"></div>
+                            <h4 class="card-title mb-0">Historique Congés</h4>
+                            <div class="col-1 float-right">
+                                <div class="document-up">
+
+                                    <a href="{{ path('historiquepdf')}}" class="btn btn-sm btn-outline-danger" style="float:right" >
+                                        <i  class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="pills-tabContent">
+
+                                <!--Tab 1-->
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <div class="employee-office-table">
+                                        <div class="table-responsive">
+                                            <table class="table custom-table">
+                                                <thead>
+                                                <tr>
+                                                    <th width="20%">Date de depot</th>
+                                                    <th width="20%">Date de début</th>
+                                                    <th width="20%">Date de fin</th>
+                                                    <th width="20%">Raison</th>
+                                                    <th width="10%">Statut</th>
+                                                    <th width="10%"><i class="fa fa-paperclip"></i></th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for demand in conges %}
+                                                    <tr>
+
+                                                        <td width="20%"><a class="btn-outline-warning btn-sm"> {{ demand.filingDate ? demand.filingDate|date('Y-m-d') : '' }}  </a></td>
+                                                        <td width="20%"><a class="btn-outline-warning btn-sm"> {{ demand.startDate ? demand.startDate|date('Y-m-d') : '' }} </a></td>
+                                                        <td width="20%"><a class="btn-outline-warning btn-sm"> {{ demand.endDate ? demand.endDate|date('Y-m-d') : '' }} </a></td>
+                                                        <td width="20%">{{ demand.reason ? demand.reason : '' }}</td>
+                                                        <td width="20%">
+                                                            {% if constant('STATUS_SENT', demand) == demand.status %}
+                                                                <p> <span class="badge badge-info"><b>{{ constant('STATUS', demand)[demand.status] }}</b> </span> </p>
+                                                            {% endif %}
+                                                            {% if constant('STATUS_IN_PROGRESS', demand) == demand.status %}
+                                                                <p> <span class="badge badge-primary"><b>{{ constant('STATUS', demand)[demand.status] }}</b> </span> </p>
+                                                            {% endif %}
+                                                            {% if constant('STATUS_DONE', demand) == demand.status %}
+                                                                <p> <span class="badge badge-success"><b>{{ constant('STATUS', demand)[demand.status] }}</b> </span> </p>
+                                                            {% endif %}
+                                                            {% if constant('STATUS_REFUSE', demand) == demand.status %}
+                                                                <p><span class="badge badge-danger"><b>{{ constant('STATUS', demand)[demand.status] }}</b> </span> </p>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td> <a target="_blank" href="{{demand.supportingDocuments[0].filename is defined ? asset('images/documents/' ~ demand.supportingDocuments[0].filename) : ''}}" title="Télécharger fiche document" download>
+                                                                <i class="{{demand.supportingDocuments[0].filename is defined ?  'fa fa-download ':  ''}} "></i>
+                                                            </a></td>
+
+                                                    </tr>
+
+                                                {% endfor %}
+                                                {% for demand in conges2 %}
+                                                    <tr>
+
+                                                        <td width="20%"><a class="btn-outline-warning btn-sm"> {{ demand.filingDate ? demand.filingDate|date('Y-m-d') : '' }}  </a></td>
+                                                        <td width="20%"><a class="btn-outline-warning btn-sm"> {{ demand.startDate ? demand.startDate|date('Y-m-d') : '' }} </a></td>
+                                                        <td width="20%"><a class="btn-outline-warning btn-sm"> {{ demand.endDate ? demand.endDate|date('Y-m-d') : '' }} </a></td>
+                                                        <td width="20%">{{ demand.reason ? demand.reason : '' }}</td>
+                                                        <td width="20%">
+                                                            {% if constant('STATUS_SENT', demand) == demand.status %}
+                                                                <p> <span class="badge badge-info"><b>{{ constant('STATUS', demand)[demand.status] }}</b> </span> </p>
+                                                            {% endif %}
+                                                            {% if constant('STATUS_IN_PROGRESS', demand) == demand.status %}
+                                                                <p> <span class="badge badge-primary"><b>{{ constant('STATUS', demand)[demand.status] }}</b> </span> </p>
+                                                            {% endif %}
+                                                            {% if constant('STATUS_DONE', demand) == demand.status %}
+                                                                <p> <span class="badge badge-success"><b>{{ constant('STATUS', demand)[demand.status] }}</b> </span> </p>
+                                                            {% endif %}
+                                                            {% if constant('STATUS_REFUSE', demand) == demand.status %}
+                                                                <p><span class="badge badge-danger"><b>{{ constant('STATUS', demand)[demand.status] }}</b> </span> </p>
+                                                            {% endif %}
+                                                        </td>
+
+
+                                                    </tr>
+
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/Tab 1-->
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block script %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    <script>
+        $(document).ready(function(e) {
+            var yearsystem= new Date().getFullYear();
+            var calendarUrl;
+
+            console.log("test");
+            {% if   country =="Tunis" %}
+             calendarUrl = 'https://www.googleapis.com/calendar/v3/calendars/fr.tn%23holiday%40group.v.calendar.google.com/events?&key=AIzaSyDSv5bVcFiRRsi65Wctct2AIuxZ74MzZy0&orderBy=starttime&singleEvents=true';
+            {%  endif %}
+            {% if   country =="France" %}
+             calendarUrl = 'https://www.googleapis.com/calendar/v3/calendars/fr.french%23holiday%40group.v.calendar.google.com/events?key=AIzaSyDSv5bVcFiRRsi65Wctct2AIuxZ74MzZy0&orderBy=starttime&singleEvents=true&locale';
+            {%  endif %}
+            {% if   country  =="L'île Maurice" %}
+             calendarUrl = 'https://www.googleapis.com/calendar/v3/calendars/fr.mu%23holiday%40group.v.calendar.google.com/events?key=AIzaSyDSv5bVcFiRRsi65Wctct2AIuxZ74MzZy0&orderBy=starttime&singleEvents=true';
+            {%  endif %}
+            var tbody= document.getElementById("tablecontent");
+            console.log("array",tbody);
+            let array=['Jour de l’an','Fête de l’Indépendance','Journée des Martyrs','Fête du travail','Aïd el Fitr','Aïd el Fitr','Aïd el Kébir','Aïd el Kébir','Fête de la République','Jour de l’an de l’Hégire','Fête de la Femme','Mouled','Fête de l’évacuation','Fête de la Révolution']
+            let array1=['New Year','Independence Day',"Martyrs' Day",'Labour Day','Eid al-Fitr','Eid al-Fitr Holiday','Eid al-Adha','Eid al-Adha Holiday','Republic Day','Muharram',"Women's and Family Day","The Prophet's Birthday",'Evacuation Day','Revolution and Youth Day']
+            $.getJSON(calendarUrl)
+                .success(function(data) {
+                    for (item in data.items) {
+                    if(new Date(data.items[item].start.date).getFullYear()==yearsystem){
+                        var tr=document.createElement('tr');
+                        var td1=document.createElement('td');
+                        var textcontenttd1=(document.createTextNode(data.items[item].start.date));
+                        td1.appendChild(textcontenttd1);
+                        var td2=document.createElement('td');
+                        {% if   country =="Tunis" %}
+                        let index=array1.indexOf(data.items[item].summary);
+                        var textcontenttd2=document.createTextNode(array[index]);
+
+                        console.log("array",array1.indexOf(data.items[item].summary));
+                        {% endif %}
+                        {% if   country !="Tunis" %}
+
+                        var textcontenttd2=document.createTextNode(data.items[item].summary);
+
+                        {% endif %}
+                        td2.appendChild(textcontenttd2);
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tbody.append(tr);
+                    }
+                    }
+
+                })
+                .error(function(error) {
+                    console.log(error);
+                })
+
+        })
+
+
+    </script>
+    <script src="{{asset('assets/js/Chart.min.js')}}"></script>
+
+
+    <script>
+
+        $(function() {
+            var tablabels=[];
+            {%for elt in departements  %}
+            tablabels.push('{{ elt.label }}');
+            {% endfor %}
+           // console.log(tablabels);
+
+            var ctx = document.getElementById('pieChartAdmin').getContext('2d');
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+
+                    labels: tablabels,
+
+                    datasets: [{
+                        label: '',
+                        data: [{% for elt in departements %}{% if loop.last %}{{ elt.users|length }}{% else %} {{ elt.users|length ~ ','}} {% endif %} {% endfor %}],
+                        backgroundColor: [
+                            '#f6822d',
+                            '#ff6361',
+                            '#67e5f6',
+                            'rgba(233,45,246,0.71)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false
+                    }
+                }
+
+            });
+        });
+        //nbre employes en conges
+        $(function() {
+            var tablabelsdirecteur=[];
+            {%for elt in depdirecteur  %}
+            tablabelsdirecteur.push('{{ elt.label }}');
+            {% endfor %}
+            var ctx = document.getElementById('pieChartcongesRes').getContext('2d');
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Demande Acceptés','Demande Réfusé','Demande En cours','Demande Envoyés'],
+                    datasets: [{
+                        label: '# Statistique des congés',
+                        data:[{{ totalDdeValied|length}}, {{ totalDdeRefuse|length }},{{ totalDdeEncours|length }}, {{ totalDdeEnvoyes|length }}],
+                        backgroundColor: [
+
+                            '#1bd790',
+
+                            '#f62b2b',
+                            '#de4b0b',
+                            '#0897af',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+            var tablabelsdirecteur=[];
+            {%for elt in depdirecteur  %}
+            tablabelsdirecteur.push('{{ elt.label }}');
+            {% endfor %}
+ var ctx = document.getElementById("lineChartres").getContext('2d');
+            var lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels:tablabelsdirecteur,
+                    datasets: [{
+                        label: 'dddd',
+                        data:[{% for elt in totalcongesbydep %}{% if loop.last %}{{ elt }}{% else %} {{ elt ~ ','}} {% endif %} {% endfor %}] ,
+                        fill: false,
+                        borderColor: '#0c0ae2',
+                        backgroundColor: '#d90442',
+                        borderWidth: 1
+                    }
+                       ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+
+
+
+        });
+
+
+       $(function() {
+
+            var ctx = document.getElementById('pie').getContext('2d');
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Congés envoyé','Congés en cours du traitement','Congés validé','Congés refusé'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [{{ conges3|length }},{{ conges1|length }},{{ conges|length }},{{ conges2|length }}],
+                        backgroundColor: [
+                            '#1bbbd7',
+                            '#fd7e14',
+                            '#079961',
+                            '#d71b1b',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+        });
+
+
+    </script>
+{% endblock %}

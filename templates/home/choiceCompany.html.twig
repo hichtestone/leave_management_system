@@ -1,0 +1,39 @@
+{% extends 'layouts/app.html.twig' %}
+
+
+
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white card">
+        <div class="card-body">
+            <ul class="list-group list-group-horizontal-lg">
+                <h4 class="card-title mb-0 active" style="margin-left: 550px; color: #f6822d">Quelle compagnie voulez-vous choisir !!</h4>
+
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+
+    <div class="ctm-border-radius shadow-sm grow card">
+        <div class="card-body">
+
+            <!--Content tab-->
+            <div class="row people-grid-row">
+                {% for company in companies %}
+                <div class="col-md-12 col-lg-12 col-xl-3">
+                    <div class="card widget-profile" style="width: 150px; height: 150px">
+                        <div class="card-body block" >
+                                <div class="pro-widget-content text-center">
+                                    <div class="profile-det-info" >
+                                          <a href="{{ path('gethome',{'id': company.id}) }}"><img src="{{ asset('images/companies/' ~company.logo) }}" ></a>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

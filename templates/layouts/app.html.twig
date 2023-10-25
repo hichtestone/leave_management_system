@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dleohr.dreamguystech.com/template-2/dleohr-vertical/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Apr 2021 12:27:29 GMT -->
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')  }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon/favicon-16x16.png')  }}">
+    <link rel="manifest" href="{{asset('favicon/site.webmanifest')  }}">
+    <link rel="mask-icon" href="{{asset('favicon/safari-pinned-tab.svg')  }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
+    <!-- Linearicon Font -->
+    <link rel="stylesheet" href="{{asset('assets/css/lnr-icon.css')}}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{asset('assets/css/font-awesome.min.css')}}">
+
+    <!-- Full Calander CSS -->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap-datetimepicker.min.css')  }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/select2.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
+
+    <!-- Custom CSS -->
+
+    <title>
+        Dashboard Page
+        {% block title%}{% endblock %}
+    </title>
+    {% block stylesheets %}
+        {#{{ encore_entry_link_tags('app') }}#}
+    {% endblock %}
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="{{asset('assets/js/html5shiv.min.js')}}"></script>
+    <script src="{{asset('assets/js/respond.min.js')}}"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<!-- Inner wrapper -->
+<div class="inner-wrapper">
+
+    {% include('layouts/header.html.twig') %}
+    <!-- Content -->
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                {% include('layouts/sidebar.html.twig') %}
+
+                <div class="col-xl-9 col-lg-8  col-md-12">
+                    {% block nav %}
+                    {% endblock %}
+
+
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/Content-->
+
+
+</div>
+<!-- Inner Wrapper -->
+
+<div class="sidebar-overlay" id="sidebar_overlay"></div>
+
+<script src="{{asset('assets/js/jquery-3.2.1.min.js')}}"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{{asset('assets/js/popper.min.js')}}"></script>
+<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+
+<!-- Chart JS -->
+
+<!-- Datetimepicker JS -->
+<script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/select2/moment.min.js')  }}"></script>
+<script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')  }}"></script>
+
+
+<script src="{{ asset('assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
+
+<!-- Sticky sidebar JS -->
+<script src="{{asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js')}}"></script>
+<script src="{{asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js')}}"></script>
+
+<!-- Full Calendar JS -->
+<script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+
+
+
+<!-- Custom Js -->
+<script src="{{asset('assets/js/script.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $('.notification_update').click(function(){
+            var id = $(this).data("notif");
+            $.ajax({
+                type: 'GET',
+                url: "{{ path('update_notif_lu') }}",
+                data: { notif_id : id },
+                complete: function(data) {
+                    location.reload();
+                }
+            });
+        }) })
+</script>
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('#admSlect').click(function () {
+                console.log('ffff')
+                $('#admin-part').show();
+            });
+
+        })
+    </script>
+{% endblock %}
+
+</body>
+
+
+</html>

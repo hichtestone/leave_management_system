@@ -1,0 +1,48 @@
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}départements{% endblock %}
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white p-4 mb-4 ">
+        <ul class="list-group list-group-horizontal-lg">
+            <li> <span class=" float-left">Nouveau Département</span></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+
+
+        <div class="card ctm-border-radius shadow-sm grow">
+            <div class="card-header">
+                <h4 class="card-title mb-0 d-inline-block">Nouveau Département</h4>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <p>Nom de departement</p>
+                        {{ form_widget(form.label) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(form.label) }}
+                        </div>
+                    </div>
+
+                    <div class="col form-group">
+                        {{ form_widget(form.company) }}
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <div class="submit-section text-center btn-add">
+                            <button type="submit" class="btn btn-theme button-1 text-white ctm-border-radius">Enregistrer</button>
+                            <button class="btn btn-danger text-white ctm-border-radius">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+
+
+
+
+{% endblock %}

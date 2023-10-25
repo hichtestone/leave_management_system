@@ -1,0 +1,31 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        user_image:
+            uri_prefix: /images/users
+            upload_destination: '%kernel.project_dir%/public/images/users'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+        document_image:
+            uri_prefix: /images/documents
+            upload-destination: '%kernel.project_dir%/public/images/documents'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+        company_image:
+            uri_prefix: /images/companies
+            upload_destination: '%kernel.project_dir%/public/images/companies'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+
+
+
+
+
+    #mappings:
+    #    products:
+    #        uri_prefix: /images/products
+    #        upload_destination: '%kernel.project_dir%/public/images/products'

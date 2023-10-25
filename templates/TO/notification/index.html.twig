@@ -1,0 +1,82 @@
+{% set activeMenu= 'demand' %}
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}New Demand{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white card">
+        <div class="card-body">
+            <ul class="list-group list-group-horizontal-lg">
+                <li class="list-group-item text-center active button-5"><a href="" class="text-white">Notifications</a></li>
+            </ul>
+
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="col-md-12">
+        <div class="company-doc">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+                    <h4 class="card-title d-inline-block mb-0">
+                        Notifications
+                    </h4>
+                    <a href="javascript:void(0)" class="float-right add-doc text-primary" data-toggle="modal" data-target="#addDocument">
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="employee-office-table">
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                <tr>
+                                    <th>Message</th>
+                                    <th>Date de Notification</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for notif in notifications %}
+                                <tr>
+                                    <td class="text-primary">
+                                        {% if constant('NOTIF_CLIENT_ADD', notif) == notif.message %}
+                                            <p> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+                                        {% endif %}
+                                        {% if constant('NOTIF_CLIENT_EDIT', notif) == notif.message %}
+                                            <p> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+                                        {% endif %}
+                                        {% if constant('NOTIF_ADMIN_IN_PROGRESS', notif) == notif.message %}
+                                            <p> <span><b>{{ constant('NOTIF', notif)[notif.notif] }}</b> </span> </p>
+                                        {% endif %}
+                                        {% if constant('NOTIF_ADMIN_ACCEPTED', notif) == notif.message %}
+                                            <p><span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+                                        {% endif %}
+
+                                        {% if constant('NOTIF_ADMIN_REFUSED', notif) == notif.message %}
+                                            <p><span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+                                        {% endif %}
+                                    </td>
+                                    <td><a href="javascript:void(0)" class="text-primary">{{ notif.createdAt ? notif.createdAt|date('Y-m-d H:i:s') : '' }}</a></td>
+
+
+                                    <td class="text-right text-success">
+                                        <div class="table-action">
+                                            <a href="javascript:void(0);" class="notification_update btn btn-sm btn-outline-success"  data-luuu="{{ notif.isRead}}" data-notif="{{ notif.id }}">
+                                                <span  class="lnr lnr-spell-check"></span> Marquée comme lu
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                             {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

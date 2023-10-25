@@ -1,0 +1,109 @@
+{% extends 'layouts/app.html.twig' %}
+{% block title %} {% endblock %}
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white p-4 mb-4 ">
+        <ul class="list-group list-group-horizontal-lg">
+            <li> <span class=" float-left"> <a  href="{{ path('advanced') }}" class="  d-block text-dark d-inline-block  text-primary">
+                    Déposer votre demande d'avance sur salaire <i  class=" fa fa-plus" style="margin-left: 3px"></i>
+                </a> </span>
+               </li>
+        </ul>
+    </div>
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+            <h4 class="card-title float-left mb-0 mt-2"><p class="profile-info-widget"> Importer un fichier</p></h4>
+            <ul class="nav nav-tabs float-right border-0 tab-list-emp">
+                <li class="nav-item pl-3">
+                    <a href="{{ path('uploadAdvance') }}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding">
+                        <i class="fa fa-upload"></i>Importer
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+            <h4 class="card-title float-left mb-0 mt-2"><p class="profile-info-widget"> Historique des demandes</p></h4>
+            <ul class="nav nav-tabs float-right border-0 tab-list-emp">
+                <li class="nav-item pl-3">
+                    <a href="{{ path('historiqueAdvance') }}" class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding">
+                        <i class="fa fa-eye"></i>Historique
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+<div class="row">
+
+    <div class="col-md-12">
+    <div class="card ctm-border-radius shadow-sm grow">
+        <div class="card-header">
+            <h4 class="card-title mb-0">  Liste des demandes d'avance sur salaire
+            </h4>
+            <span class=" float-right" style="alignment: right"> <a  href="{{ path('advanced_list') }}" class="  d-block text-dark d-inline-block  text-primary">
+                    Mes demandes d'avance sur salaire <i  class=" fa fa-eye" style="margin-left: 3px"></i>
+                </a> </span>
+        </div>
+
+        <div class="card-body">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <div class="employee-office-table">
+                <div class="table-responsive" >
+                    <table class="table custom-table mb-0 " >
+                        <thead style="color: #6c757d">
+                        <tr>
+                            <th>Nom d'employeur</th>
+                            <th>Prenom d'employeur</th>
+                            <th>Reference</th>
+                            <th>Date de depot</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th class="text-right">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for advance in advanced %}
+                        <tr>
+                            <td>
+                                <h2><a>{{ advance.user.firstName ?  advance.user.firstName : '' }}</a></h2>
+                            </td>
+                            <td>{{ advance.user.lastName ?  advance.user.lastName : '' }}</td>
+                            <td>{{ advance.ref ?  advance.ref : '' }}</td>
+                            <td>{{ advance.filingAt ? advance.filingAt|date('Y-m-d') : '' }}</td>
+                            <td>{{ advance.amount }}
+
+                                {% if  advance.user.department.company.country=="France" %}
+                                    EURO
+                                {% endif %}
+                                {% if  advance.user.department.company.country=="Tunis" %}
+                                    TND
+                                {% endif %}
+                                {% if  advance.user.department.company.country=="L'île Maurice" %}
+                                    MUR
+                                {% endif %}
+                            </td>
+                            <td><a class="btn btn-theme ctm-border-radius text-white btn-sm">{{ constant('STATUS', advance)[advance.status] }}</a></td>
+                            <td class="text-right text-danger"><a href="{{path('accept_advanced', {'id': advance.id}) }}" class="btn btn-sm btn-outline-secondary" >
+                                    <span class="lnr lnr-checkmark-circle"></span> Accepter
+                            </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %} {% endblock %}

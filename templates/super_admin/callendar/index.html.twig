@@ -1,0 +1,103 @@
+{% extends 'layouts/app.html.twig' %}
+{% block title %} {% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css" integrity="sha256-u40zn9KeZYpMjgYaxWJccb4HnP0i8XI17xkXrEklevE=" crossorigin="anonymous">
+    <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
+
+    <style>
+        #calendar{
+            width: 100%;
+            margin: auto;
+            color: #1365dc;
+
+
+        }
+        #fc-button-group{
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}
+{% block nav %}
+    <div class="card shadow-sm grow ctm-border-radius row">
+        <div class="col-md-12">
+        <div class="card-body col-md-6 float-left">
+            <h4 class="card-title float-left mb-0 mt-2"><p class="profile-info-widget"> Calendrier des demandes des congés</p></h4>
+        </div>
+        <div class="form-group col-md-6 float-right" style="margin-top: 2em">
+            <select id="choic" class="form-control select form-white" data-placeholder="Choose a color..." name="category-color">
+                <option value="0"> {% if app.request.get('_route') == 'calendar_company_super' %}{{ companiee.name }} {% else %}choisir votre entreprise{% endif %}</option>
+                {% for companie in company|sort((a, b) => a.name <=> b.name) %}
+                <option value="{{ companie.id }}"  data-url="{{ path('calendar_company_super', {'id' : companie.id}) }}">{{ companie.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="col-xl-12 col-lg-8  col-md-12">
+        <div class="card ctm-border-radius shadow-sm grow">
+            <div class="card-body">
+                <div id="calendar"></div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js" integrity="sha256-AOrsg7pOO9zNtKymdz4LsI+KyLEHhTccJrZVU4UFwIU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.js" integrity="sha256-JioheWkYsJTaMcygTlhzmt6Ut1dx+YAaos5dDPYu/6w=" crossorigin="anonymous"></script>    <script>
+    window.onload = () => {
+        var initialLocaleCode = 'en';
+        let callendarElt = document.querySelector("#calendar")
+        let callendar = new FullCalendar.Calendar(callendarElt, {
+            initialView: 'dayGridMonth',
+            locale: 'fr',
+            size: 'auto',
+            timeZone: 'Europe/Paris',
+            headerToolbar: {
+                start:'prev,next today',
+                center: 'title',
+                end: 'dayGridMonth,timeGridWeek,timeGridDay',
+            },
+
+            events: {{ result|raw }},
+            editable : false,
+            EventResizableFromStart: true,
+            eventTimeFormat: { // like '14:30:00'
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                meridiem: false
+            }
+        })
+        callendar.render();
+    }
+</script>
+    <script>
+        $(document).ready(function (){
+            $('#choic').on('change',function (reaload_on_return){
+               // var companyId = $(this).val();
+                var urls = $(this).find(":selected").data('url');
+                   window.location.replace(urls);
+                //console.log(companyId);
+                //console.log(urls);
+              /*  $.ajax({
+                    type: 'POST',
+                    data: {id: companyId},
+                    url: urls,
+                    dataType: 'json',
+                });
+                if (reaload_on_return){
+                   // console.log(urls);
+                }*/
+
+
+            });
+
+            })
+    </script>
+{% endblock %}

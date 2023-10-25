@@ -1,0 +1,75 @@
+{% extends 'layouts/app.html.twig'%}
+{% block title %} list administratifs {% endblock %}
+{% block nav %}
+
+
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+            <h4 class="card-title float-left mb-0 mt-2"><p class="profile-info-widget"> Historique des demandes administratifs</p></h4>
+
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card ctm-border-radius shadow-sm grow">
+
+
+                <div class="card-body">
+                    <div class="employee-office-table">
+                        <div class="table-responsive" >
+                            <table class="table custom-table mb-0 " >
+                                <thead style="color: #6c757d">
+                                <tr>
+                                    <th>Nom d'employeur</th>
+                                    <th>Prenom d'employeur</th>
+                                    <th>Date de depot</th>
+                                    <th>Type</th>
+                                    <th>Statut</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for adm in administratif %}
+                                    <tr>
+                                        <td>
+                                            <h2><a>{{ adm.user.firstName ?  adm.user.firstName : '' }}</a></h2>
+                                        </td>
+                                        <td>{{ adm.user.lastName ?  adm.user.lastName : '' }}</td>
+                                        <td>{{ adm.filingAt ? adm.filingAt|date('Y-m-d') : '' }}</td>
+                                        <td>{{ constant('TYPE', adm) [adm.type] }} </td>
+                                        <td>
+                                                    {{ constant('STATUS', adm)[adm.status] }} <i class="caret"></i></a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('.adm_update').click(function (){
+                let id = $(this).data("id");
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: "{{ path('adm_update') }}",
+                    data: {id: id},
+                    complete: function (){
+                        location.reload();
+                    }
+                })
+            });
+        })
+    </script>
+{% endblock %}

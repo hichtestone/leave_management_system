@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Company{% endblock %}
+
+{% block body %}
+    <h1>Company</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ company.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ company.name }}</td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td>{{ company.logo }}</td>
+            </tr>
+            <tr>
+                <th>Adress</th>
+                <td>{{ company.adress }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ company.country }}</td>
+            </tr>
+            <tr>
+                <th>Zipcode</th>
+                <td>{{ company.zipcode }}</td>
+            </tr>
+            <tr>
+                <th>PhoneNumber</th>
+                <td>{{ company.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>Fax</th>
+                <td>{{ company.fax }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ company.email }}</td>
+            </tr>
+            <tr>
+                <th>Site</th>
+                <td>{{ company.site }}</td>
+            </tr>
+            <tr>
+                <th>UpadatedAt</th>
+                <td>{{ company.upadatedAt ? company.upadatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ company.createdAt ? company.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('company_index') }}">back to list</a>
+
+    <a href="{{ path('company_edit', {'id': company.id}) }}">edit</a>
+
+    {{ include('company/_delete_form.html.twig') }}
+{% endblock %}

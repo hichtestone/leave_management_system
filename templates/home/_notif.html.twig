@@ -1,0 +1,60 @@
+<ul class="list-inline m-0">
+    <li class="list-inline-item" data-toggle="tooltip" data-placement="top">
+        <a style="color: {{ notif_numbers is defined ? '#f6822d' : '' }}" href="javascript:void(0)"
+           data-toggle="dropdown"
+           class="font-23  align-middle  dropdown-toggle {{ notif_numbers is defined ? 'text-green' : 'menu-style' }} ">
+            <span class="fa fa-bell">{% if notif_numbers is defined %} {{ notif_numbers }} {% endif %}</span>
+        </a>
+
+        <div class="dropdown-menu notification-dropdown-menu shadow-lg border-0 p-3 m-0 dropdown-menu-right">
+            <ul>
+                <li>{% if notif_numbers is defined %} Vous avez {{ notif_numbers }} nouvelles notifications {% endif %}</li>
+                {% if notifications is defined %}
+                    {% for notif in notifications %}
+                        <li>
+                            <div class="dropdown-item p-2">
+														<span class="media align-items-center">
+															<span class="media-body text-truncate">
+																<span class="text-truncate">
+																	 {% if constant('NOTIF_CLIENT_ADD', notif) == notif.message %}
+                                                                         <p style="font-size: 12px"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+																	{% elseif constant('NOTIF_CLIENT_EDIT', notif) == notif.message %}
+                                                                         <p style="font-size: 12px"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+																	{% elseif constant('NOTIF_ADMIN_PROGRESS', notif) == notif.message %}
+                                                                         <p style="font-size: 12px"> <span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+																	{% elseif constant('NOTIF_ADMIN_ACCEPTED', notif) == notif.message %}
+                                                                         <p style="font-size: 12px"><span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+                                                                    {% elseif constant('NOTIF_CLIENT_ADMINISTRATIVE', notif) == notif.message %}
+                                                                         <p style="font-size: 12px"><span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+
+																	{% else %}
+                                                                         <p style="font-size: 12px"><span><b>{{ constant('NOTIF', notif)[notif.message] }}</b> </span> </p>
+                                                                     {% endif %}
+																	<span class="time-list"
+                                                                          style="font-size: 12px">{% set difference = date(notif.createdAt).diff(date('now')).format("%H heures et %I") %}
+                                                       Il ya  {{ difference }} minutes</span>
+																</span>
+															</span>
+															<span data-luuu="{{ notif.isRead }}"
+                                                                  data-notif="{{ notif.id }}"
+                                                                  class="notification_update"><i
+                                                                        class='blue-icon fa fa-check-circle-o  bigger-110 icon-only'
+                                                                        style="color: #1b9448"></i></span>
+
+
+														</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+                <hr>
+                <li>
+                    <a class="see-all" href="{{ path(path) }}"><span>Voir tous</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </li>
+</ul>
+
+

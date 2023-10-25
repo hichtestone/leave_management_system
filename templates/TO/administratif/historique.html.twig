@@ -1,0 +1,195 @@
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}Historique demande administratif{% endblock %}
+
+{% block nav %}
+    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm bg-white card grow">
+        <div class="card-body">
+            <div class="flex-row list-group list-group-horizontal-lg" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class=" active list-group-item" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Historique Demandes Administratifs</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+    <div class="card shadow-sm ctm-border-radius grow">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h4 class="card-title mb-0 d-inline-block">Demandes Administratifs</h4>
+                <a  href="{{ path('administratif') }}"  class="btn btn-theme button-1 ctm-border-radius text-white float-right"><span></span> nouvelle demande</a>
+            </div>
+            <div class="card-body align-center">
+                <div class="tab-content" id="v-pills-tabContent">
+
+                    <!-- Tab1-->
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="employee-office-table">
+                            <div class="table-responsive">
+                                <table class="table custom-table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Type d'Attestation</th>
+                                        <th>Date de dépot</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for attestation in attestations %}
+                                    <tr>
+                                        <td>
+                                            {% if constant('TYPE_TRAVAIL', attestation) == attestation.type %}
+                                                <p>{{ constant('TYPE', attestation)[attestation.type] }} </p>
+                                            {% endif %}
+                                            {% if constant('TYPE_TITULARISATION', attestation) == attestation.type %}
+                                                <p>{{ constant('TYPE', attestation)[attestation.type] }}</p>
+                                            {% endif %}
+                                            {% if constant('TYPE_SALAIRE', attestation) == attestation.type %}
+                                                <p>{{ constant('TYPE', attestation)[attestation.type] }} </p>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ attestation.filingAt? attestation.filingAt|date('Y-m-d ') : '' }}
+                                        </td>
+                                        <td>
+                                            {% if constant('STATUS_SENT', attestation) == attestation.status %}
+                                                <p>{{ constant('STATUS', attestation)[attestation.status] }}</p>
+                                            {% endif %}
+                                            {% if constant('STATUS_DONE', attestation) == attestation.status %}
+                                                <p>{{ constant('STATUS', attestation)[attestation.status] }} </p>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Tab 1-->
+
+                    <!-- Tab2-->
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                        <div class="employee-office-table">
+                            <div class="table-responsive">
+                                <table class="table custom-table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Created By</th>
+                                        <th>Scheduled For</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr>
+                                        <td>Monthly Review</td>
+                                        <td>
+                                            <a href="employment.html" class="avatar"><img class="img-fluid" alt="avatar image" src="assets/img/profiles/img-10.jpg"></a>
+                                            <h2><a href="employment.html"> Richard Wilson</a></h2>
+                                        </td>
+                                        <td>
+                                            Everyone
+                                        </td>
+                                        <td>
+                                            <div class="table-action">
+                                                <a href="edit-review.html" class="btn btn-sm btn-outline-success">
+                                                    <span class="lnr lnr-pencil"></span> Edit
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#delete">
+                                                    <span class="lnr lnr-trash"></span> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employees Review</td>
+                                        <td>
+                                            <a href="employment.html" class="avatar"><img class="img-fluid" alt="avatar image" src="assets/img/profiles/img-10.jpg"></a>
+                                            <h2><a href="employment.html"> Richard Wilson</a></h2>
+                                        </td>
+                                        <td>
+                                            Everyone
+                                        </td>
+                                        <td>
+                                            <div class="table-action">
+                                                <a href="edit-review.html" class="btn btn-sm btn-outline-success">
+                                                    <span class="lnr lnr-pencil"></span> Edit
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#delete">
+                                                    <span class="lnr lnr-trash"></span> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employees Review</td>
+                                        <td>
+                                            <a href="employment.html" class="avatar"><img class="img-fluid" alt="avatar image" src="assets/img/profiles/img-10.jpg"></a>
+                                            <h2><a href="employment.html"> Richard Wilson</a></h2>
+                                        </td>
+                                        <td>
+                                            Everyone
+                                        </td>
+                                        <td>
+                                            <div class="table-action">
+                                                <a href="edit-review.html" class="btn btn-sm btn-outline-success">
+                                                    <span class="lnr lnr-pencil"></span> Edit
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#delete">
+                                                    <span class="lnr lnr-trash"></span> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employees Review</td>
+                                        <td>
+                                            <a href="employment.html" class="avatar"><img class="img-fluid" alt="avatar image" src="assets/img/profiles/img-10.jpg"></a>
+                                            <h2><a href="employment.html"> Richard Wilson</a></h2>
+                                        </td>
+                                        <td>
+                                            Everyone
+                                        </td>
+                                        <td>
+                                            <div class="table-action">
+                                                <a href="edit-review.html" class="btn btn-sm btn-outline-success">
+                                                    <span class="lnr lnr-pencil"></span> Edit
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#delete">
+                                                    <span class="lnr lnr-trash"></span> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Employees Review</td>
+                                        <td>
+                                            <a href="employment.html" class="avatar"><img class="img-fluid" alt="avatar image" src="assets/img/profiles/img-10.jpg"></a>
+                                            <h2><a href="employment.html"> Richard Wilson</a></h2>
+                                        </td>
+                                        <td>
+                                            Everyone
+                                        </td>
+                                        <td>
+                                            <div class="table-action">
+                                                <a href="edit-review.html" class="btn btn-sm btn-outline-success">
+                                                    <span class="lnr lnr-pencil"></span> Edit
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#delete">
+                                                    <span class="lnr lnr-trash"></span> Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Tab 2-->
+
+                </div>
+            </div>
+        </div>
+{% endblock %}

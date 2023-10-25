@@ -1,0 +1,234 @@
+{% set activeMenu= 'demand' %}
+{% extends 'layouts/app.html.twig' %}
+
+{% block title %}New Demand{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .form-error > ul > li{
+        color: red;
+    }
+</style>
+{% endblock %}
+{% block nav %}
+    <div class="card shadow-sm grow ctm-border-radius">
+        <div class="card-body align-center">
+            <h4 class="card-title float-left mb-0 mt-2"><p
+                        class="profile-info-widget"> {% if edit %} Modifier votre demande de congé {% else %}Faire une nouvelle demande de congés {% endif %}</p>
+            </h4>
+            <ul class="nav nav-tabs float-right border-0 tab-list-emp">
+
+                <li class="nav-item pl-3">
+                  {% if is_granted('ROLE_TO') %}
+                    <a href="{{ path('demand_index') }}"
+                       class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><i
+                                class="fa fa-eye"></i> Mes demandes
+                    </a>
+                  {% elseif is_granted('ROLE_RESPONSABLE') %}
+                    <a href="{{ path('demandResp_index') }}"
+                       class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><i
+                                class="fa fa-eye"></i> Mes demandes
+                    </a>
+                   {% elseif is_granted('ROLE_DIRECTEUR') %}
+                        <a href="{{ path('demandDR') }}"
+                           class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><i
+                                    class="fa fa-eye"></i> Mes demandes
+                        </a>
+                   {% elseif is_granted('ROLE_ADMIN') %}
+                       <a href="{{ path('demandAdmin') }}"
+                          class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><i
+                                   class="fa fa-eye"></i> Mes demandes
+                       </a>
+                   {% else%}
+                       <a href="{{ path('demandDR') }}"
+                          class="btn btn-theme button-1 text-white ctm-border-radius p-2 add-person ctm-btn-padding"><i
+                                   class="fa fa-eye"></i> Mes demandes
+                       </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+            <div class="card dash-widget ctm-border-radius shadow-sm grow">
+                <div class="card-body">
+                    <div class="card-icon bg-info">
+                        <i class="fa fa-building-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="card-right">
+                        <h4 class="card-title">Congés acceptés</h4>
+                        <p class="card-text">{{ accepted|length }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-sm-6 col-12">
+            <div class="card dash-widget ctm-border-radius shadow-sm grow">
+                <div class="card-body">
+                    <div class="card-icon bg-danger">
+                        <i class="fa fa-rouble"></i>
+                    </div>
+                    <div class="card-right">
+                        <h4 class="card-title">Congés réfusé</h4>
+                        <p class="card-text">{{ refused|length }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-sm-6 col-12">
+            <div class="card dash-widget ctm-border-radius shadow-sm grow">
+                <div class="card-body">
+                    <div class="card-icon bg-warning">
+                        <i class="fa fa-building-o" aria-hidden="true"></i>
+                    </div>
+                    <div class="card-right">
+                        <h4 class="card-title">Solde des congés</h4>
+                        <p class="card-text">{{ app.user.solde }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% for message in app.flashes('subs') %}
+        <div class="alert alert-warning">
+            <span class="lnr lnr-cross close" type='button'  data-dismiss='alert' aria-label='Close'></span>
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card ctm-border-radius shadow-sm grow">
+                <div class="card-header">
+                    <h4 class="card-title mb-0"
+                        style="text-align: center; margin-bottom: 2em">{% if edit %} MODIFIER VOTRE{% endif %}
+                        FORMULAIRE DE DEMANDE DE CONGÉS : </h4>
+                </div>
+
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    <div class="my-custom-class-for-errors">
+                        {{ form_errors(form) }}
+                    </div>
+                    <div class="row">
+{#                        <div class="col-sm-6 leave-col">#}
+{#                            <div class="form-group">#}
+{#                                <label>Nom et prénom</label>#}
+{#                                <input type="text" class="form-control"#}
+{#                                       placeholder="{{ app.user.lastName ? app.user.lastName : '' }} {{ app.user.firstName ? app.user.firstName : '' }}"#}
+{#                                       disabled="">#}
+{#                            </div>#}
+{#                        </div>#}
+                        <div class="col-sm-6 leave-col">
+                            <div class="form-group">
+                                <label>Responsable hiérarchique</label>
+                                <input type="text" class="form-control"
+                                       placeholder="{{ app.user.user ? app.user.user.firstName : '' }} {{ app.user.user ? app.user.user.lastName : '' }}" disabled="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Date début congé</label>
+                                {{ form_widget(form.startDate) }}
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6 leave-col">
+                            <div class="form-group">
+                                <label>Date fin congé</label>
+                                {{ form_widget(form.endDate) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        {{ form_label(form.reason) }}
+                        {{ form_widget(form.reason) }}
+
+                        <small>{{ form_help(form.reason) }}</small>
+
+                        <div class="form-error">
+                            {{ form_errors(form.reason) }}
+                        </div>
+                    </div>
+
+                    <div class="row col-md-12">
+                        <input type="submit" class="btn btn-theme button-1 text-white ctm-border-radius mt-4"
+                               value="{% if edit %} Modifier  {% else %}Envoyer{% endif %}">
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+
+    {#  <script>
+
+        var $collectionHolder;
+
+        //setup an "add a todo" link
+        var $addTodoButton = $('<button type="button" class="btn btn-theme button-1 text-white ctm-border-radius mt-4 " style="margin-left: 80%; margin-top: 3em">Ajouter une pièce justificatif</button>');
+        var $newLinkLi = $('<li></li>').append($addTodoButton);
+
+        jQuery(document).ready(function () {
+            // Get the ul that holds the collection of todos
+            $collectionHolder = $('ul.todos');
+
+            // add the "add a todo" anchor and li to the todos ul
+            $collectionHolder.append($newLinkLi);
+
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            $addTodoButton.on('click', function (e) {
+                // add a new todo form (see next code block)
+                addTodoForm($collectionHolder, $newLinkLi);
+                $newLinkLi.hide();
+            });
+        });
+
+        function addTodoForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            var newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your taskss field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+
+            // Display the form in the page in an li, before the "Add a task" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+
+
+
+
+    </script> #}
+
+
+{% endblock %}

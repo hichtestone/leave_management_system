@@ -1,0 +1,37 @@
+{% extends 'layouts/app.html.twig' %}
+{% block title %} Entreprise{% endblock %}
+{% block nav %}
+    <div class="ctm-border-radius shadow-sm grow bg-white p-4 mb-4 ">
+        <ul class="list-group list-group-horizontal-lg">
+            <li class=" float-left"> <span >Nouvelle Entreprise</span> </li>
+            <li class="float-right" style="margin-left: 78%">
+                <a href="{{ path('super_admin_company') }}" class=" add-doc text-primary"><span class="fa fa-arrow-left"></span> Retourner à la liste</a>
+            </li>
+        </ul>
+
+
+    </div>
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ctm-border-radius shadow-sm grow">
+            <div class="card-header">
+                <h4 class="card-title mb-0"
+                    style="text-align: center; margin-bottom: 2em">Formulaire d'ajout d'une nouvelle entreprise : </h4>
+            </div>
+
+    {{ include('company/_form.html.twig') }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'email/base.html.twig' %}
+{% block body %}
+    <tr border="1" style="border-color: lightgray;">
+        <td align="left" style="font-size:0px;  padding:10px 25px;word-break:break-word; border-bottom: 1px solid lightgray; ">
+            <div class="inter" style="font-family:Lato, Helvetica, Arial, sans-serif;  font-size:18px;text-align:left;color:#000000;">
+                <span>{{ firstname}} {{ lastname|upper }}</span>  !<br>
+                Votre demande a été accptée avec succès.
+            </div>
+        </td>
+    </tr>
+{% endblock %}

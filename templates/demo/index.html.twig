@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dleohr.dreamguystech.com/template-2/dleohr-vertical/create-review.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 Apr 2021 12:28:58 GMT -->
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')  }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon/favicon-16x16.png')  }}">
+    <link rel="manifest" href="{{asset('favicon/site.webmanifest')  }}">
+    <link rel="mask-icon" href="{{asset('favicon/safari-pinned-tab.svg')  }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Linearicon Font -->
+    <link rel="stylesheet" href="{{ asset('assets/css/lnr-icon.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/select2.min.css') }}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    <title>Démonstration</title>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="{{ asset('assets/js/html5shiv.min.js') }}"></script>
+    <script src="{{ asset('assets/js/respond.min.js') }}"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<!-- Inner wrapper -->
+<div class="inner-wrapper">
+
+    <!-- Loader -->
+    <div id="loader-wrapper">
+
+        <div class="loader">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+
+        <!-- Top Header Section -->
+        <div class="top-header-section">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-6">
+                        <div class="logo my-3 my-sm-0">
+                            <a href="index.html">
+                                <img src="{{asset('assets/logo/altra-call.png')  }}" alt="logo image" class="img-fluid" style="width: 100px ; height: 100px">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-6 text-right">
+                        <div class="user-block d-none d-lg-block">
+                            <div class="row align-items-center">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block d-lg-none">
+                            <a href="javascript:void(0)">
+                                <span class="lnr lnr-chart-bars d-block display-5 text-white" id="open_navSidebar"></span>
+                            </a>
+
+                            <!-- Offcanvas menu -->
+                            <div class="offcanvas-menu" id="offcanvas_menu">
+                                <span class="lnr lnr-cross float-left display-6 position-absolute t-1 l-1 text-white" id="close_navSidebar"></span>
+
+
+                                <hr>
+                                <div class="user-menu-items px-3 m-0">
+                                    <a class="px-0 pb-2 pt-0" href="index.html">
+												<span class="media align-items-center">
+													<span class="lnr lnr-users mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Espace TO</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="employees.html">
+												<span class="media align-items-center">
+													<span class="lnr lnr-users mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Espace Responsable</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="company.html">
+												<span class="media align-items-center">
+													<span class="lnr lnr-users mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Espace Directeur</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="calendar.html">
+												<span class="media align-items-center">
+													<span class="lnr lnr-users mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Espace Administrateur</span>
+													</span>
+												</span>
+                                    </a>
+                                    <a class="p-2" href="leave.html">
+												<span class="media align-items-center">
+													<span class="lnr lnr-user mr-3"></span>
+													<span class="media-body text-truncate text-left">
+														<span class="text-truncate text-left">Espace Super Admin</span>
+													</span>
+												</span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <!-- /Offcanvas menu -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Top Header Section -->
+
+    </header>
+    <!-- /Header -->
+
+    <!-- Content -->
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-12 theiaStickySidebar">
+                    <aside class="sidebar sidebar-user">
+                        <div class="card ctm-border-radius shadow-sm grow">
+                            <div class="card-body py-4">
+                                <div class="row">
+                                    <div class="col-md-12 mr-auto text-left">
+                                        <div class="custom-search input-group">
+                                            <div class="custom-breadcrumb">
+                                                <h4 class="text-dark">Démonstration</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sidebar -->
+                        <div class="sidebar-wrapper d-lg-block d-md-none d-none">
+                            <div class="card ctm-border-radius shadow-sm grow border-none">
+                                <div class="card-body">
+                                    <div class="row no-gutters">
+                                        {% if  is_granted('ROLE_TO')  %}
+                                        <div class="col-6 align-items-center text-center">
+                                            <a id="linkTO" href="{{ path('home') }}" class="active text-white link p-4 first-slider-btn ctm-border-right ctm-border-left ctm-border-top "><span class="lnr lnr-users pr-0 pb-lg-2 font-23" ></span><span class="">Espace TO</span></a>
+                                        </div>
+                                        {% elseif is_granted('ROLE_RESPONSABLE') %}
+                                        <div class="col-6 align-items-center text-center">
+                                            <a href="{{ path('home') }}" id="linkResponsable"  class="link p-4 first-slider-btn ctm-border-right ctm-border-left ctm-border-top "><span class="lnr lnr-users pr-0 pb-lg-2 font-23" ></span><span class="">Responsable</span></a>
+                                        </div>
+                                            {% elseif is_granted('ROLE_DIRECTEUR') %}
+                                        <div class="col-6 align-items-center shadow-none text-center">
+                                            <a href="{{ path('home') }}" id="linkDirecteur" class="link text-dark p-4 ctm-border-right ctm-border-left"><span class="lnr lnr-users pr-0 pb-lg-2 font-23"></span><span class="">Directeur</span></a>
+                                        </div>
+                                                {% elseif is_granted('ROLE_ADMIN') %}
+                                        <div class="col-6 align-items-center shadow-none text-center">
+                                            <a href="{{ path('home') }}" id="linkAdmin" class="link text-dark p-4 ctm-border-right"><span class="lnr lnr-users pr-0 pb-lg-2 font-23"></span><span class="">Administrateur</span></a>
+                                        </div>
+                                                    {% elseif is_granted('ROLE_SUPER_ADMIN') %}
+                                        <div class="col-6 align-items-center shadow-none text-center">
+                                            <a href="{{ path('home') }}" id="linkSuperAdmin" class="link text-dark p-4 ctm-border-right ctm-border-left"><span class="lnr lnr-users pr-0 pb-lg-2 font-23"></span><span class="">Super_Admin</span></a>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /Sidebar -->
+
+                    </aside>
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-12">
+                    <div class="quicklink-sidebar-menu ctm-border-radius shadow-sm grow bg-white card">
+                        <div class="card-body">
+                            <ul class="list-group list-group-horizontal-lg">
+                                <li class="list-group-item text-center active button-5"><a class="text-white">Démonstration</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if  is_granted('ROLE_TO')  %}
+                            <div class="col-md-6 " id="TO">
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Espace TO</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="avatar-upload" >
+                                                        <video controls width="250" >
+                                                            <source src="{{ asset('video_demo/bella-poarch-build-a-b-tch-official-music-video.mp4') }}"
+                                                                    type="video/mp4">
+                                                            Sorry, your browser doesn't support embedded videos.
+                                                        </video>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"  >
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Etapes</h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <div >
+                                                    <div class="row col-12">
+                                                        <span class="fa-stack">
+    <!-- The icon that will wrap the number -->
+                                                        <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                        <strong style="color: #CC7832" class="fa-stack-1x">
+                                                            I.1
+                                                        </strong>
+                                                    </span>
+                                                        l'utilisateur peut consulter la liste des ses  demandes de congé déposées
+                                                        <span class="fa-stack">
+    <!-- The icon that will wrap the number -->
+                                                        <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                        <strong style="color: #CC7832" class="fa-stack-1x">
+                                                            I.2
+                                                        </strong>
+                                                    </span>
+                                                        l'utilisateur peut déposer une demande de congé
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    II
+                                                                </strong>
+                                                            </span>
+                                                        l'utilisateur peut déposer une avance sur salaire
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    III
+                                                                </strong>
+                                                            </span>
+                                                        l'utilisateur peut déposer une demande administratif
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    IV
+                                                                </strong>
+                                                            </span>
+                                                        l'utilisateur peut consulter son profil
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif is_granted('ROLE_RESPONSABLE') %}
+                            <div class="col-md-6"  id="Responsable">
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow">
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Espace Responsable</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="avatar-upload" >
+                                                        <video controls width="250" >
+                                                            <source src="{{ asset('video_demo/bella-poarch-build-a-b-tch-official-music-video.mp4') }}"
+                                                                    type="video/mp4">
+
+                                                            Sorry, your browser doesn't support embedded videos.
+                                                        </video>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"  >
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Etapes</h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <div >
+                                                    <div class="row col-12">
+                                                        <span class="fa-stack">
+    <!-- The icon that will wrap the number -->
+                                                        <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                        <strong style="color: #CC7832" class="fa-stack-1x">
+                                                            I.1
+                                                        </strong>
+                                                    </span>
+                                                        le responsable peut consulter la liste des ses  demandes de congé déposées
+                                                        <span class="fa-stack">
+    <!-- The icon that will wrap the number -->
+                                                        <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                        <strong style="color: #CC7832" class="fa-stack-1x">
+                                                            I.2
+                                                        </strong>
+                                                    </span>
+                                                        le responsable peut déposer une demande de congé
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    II
+                                                                </strong>
+                                                            </span>
+                                                        Le responsable peut déposer une avance sur salaire
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    III
+                                                                </strong>
+                                                            </span>
+                                                        Le responsable peut déposer une demande administratif
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    IV
+                                                                </strong>
+                                                            </span>
+                                                        Le responsable peut consulter son profil
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    V
+                                                                </strong>
+                                                            </span>
+                                                        le responsable peut consulter calendrier
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif is_granted('ROLE_DIRECTEUR') %}
+                            <div class="col-md-6 d-flex" id="Admin" >
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Espace Directeur</h4>
+                                    </div>
+                                    <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="" >
+                                                        <video controls width="250" >
+                                                            <source src="{{ asset('video_demo/bella-poarch-build-a-b-tch-official-music-video.mp4') }}"
+                                                                    type="video/mp4">
+                                                            Sorry, your browser doesn't support embedded videos.
+                                                        </video>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"  >
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Etapes</h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <div  >
+                                                    <div class="row col-12">
+                                                        <span class="fa-stack">
+    <!-- The icon that will wrap the number -->
+                                                        <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                        <strong style="color: #CC7832" class="fa-stack-1x">
+                                                            I.1
+                                                        </strong>
+                                                    </span>
+                                                        le directeur peut consulter la liste des demandes de congé déposées par les différents utilisateurs et il peut les approuver, rejeter ou analyser
+                                                        <span class="fa-stack">
+    <!-- The icon that will wrap the number -->
+                                                        <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                        <strong style="color: #CC7832" class="fa-stack-1x">
+                                                            I.2
+                                                        </strong>
+                                                    </span>
+                                                        le directeur peut consulter ses demandes de congés
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    II
+                                                                </strong>
+                                                            </span>
+                                                        le directeur peut mettre a jours le solde des congés
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    III
+                                                                </strong>
+                                                            </span>
+                                                        le directeur peut consulter la liste des utilisateurs
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    IV.1
+                                                                </strong>
+                                                            </span>
+                                                        le directeur peut consulter la liste des demandes d'avance sur salaire
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    IV.2
+                                                                </strong>
+                                                            </span>
+                                                        le directeur peut déposer une avance sur salaire
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    V
+                                                                </strong>
+                                                            </span>
+                                                        le directeur peut déposer une demande adiministratif
+                                                    </div>
+
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    VI
+                                                                </strong>
+                                                            </span>
+                                                        le directeur peut consulter le calendrier
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                        <span class="fa-stack">
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                                <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                    VII
+                                                                </strong>
+                                                            </span>
+                                                        le directeur peut consulter son profil
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif is_granted('ROLE_ADMIN') %}
+                            <div class="col-md-6 d-flex" id="Admin" >
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Espace Administrateur</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="avatar-upload" >
+                                                        <video controls width="250" >
+                                                            <source src="{{ asset('video_demo/bella-poarch-build-a-b-tch-official-music-video.mp4') }}" type="video/mp4">
+                                                            Sorry, your browser doesn't support embedded videos.
+                                                        </video>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"  >
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Etapes</h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <div  >
+                                                    <div class="row col-12">
+                                                            <span class="fa-stack">
+        <!-- The icon that will wrap the number -->
+                                                            <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                                <!-- a strong element with the custom content, in this case a number -->
+                                                            <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                I.1
+                                                            </strong>
+                                                        </span>
+                                                        l'administrateur' peut consulter la liste des demandes de congé déposées
+                                                        <span class="fa-stack">
+        <!-- The icon that will wrap the number -->
+                                                            <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                            <!-- a strong element with the custom content, in this case a number -->
+                                                            <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                I.2
+                                                            </strong>
+                                                        </span>
+                                                        l'administrateur' peut déposer une demande de congé
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                            <span class="fa-stack">
+                                                                <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                                    <!-- a strong element with the custom content, in this case a number -->
+                                                                    <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                        II
+                                                                    </strong>
+                                                                </span>
+                                                        l'administrateur peut consulter son profil
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                            <span class="fa-stack">
+                                                                <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                                <!-- a strong element with the custom content, in this case a number -->
+                                                                    <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                        III
+                                                                    </strong>
+                                                                </span>
+                                                        l'administrateur peut consulter calendrier
+                                                    </div>
+                                                    <div class="row col-12" >
+                                                            <span class="fa-stack">
+                                                                <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                                <!-- a strong element with the custom content, in this case a number -->
+                                                                    <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                        VI
+                                                                    </strong>
+                                                                </span>
+                                                        l'administrateur peut gérer les départements
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% elseif is_granted('ROLE_SUPER_ADMIN') %}
+                            <div class="col-md-6"  >
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Espace Super Admin</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="avatar-upload" >
+                                                        <video controls width="250" >
+                                                            <source src="{{ asset('video_demo/bella-poarch-build-a-b-tch-official-music-video.mp4') }}" type="video/mp4">
+                                                            Sorry, your browser doesn't support embedded videos.
+                                                        </video>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"  >
+                                <div class="card ctm-border-radius shadow-sm company-logo flex-fill grow" >
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Etapes</h4>
+                                    </div>
+                                    <div class="card-body">
+
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <div  >
+                                                        <div class="row col-12">
+                                                            <span class="fa-stack">
+        <!-- The icon that will wrap the number -->
+                                                            <span style="color: #CC7832"  class="fa fa-circle-o fa-stack-2x"></span>
+                                                                <!-- a strong element with the custom content, in this case a number -->
+                                                            <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                1
+                                                            </strong>
+                                                        </span>
+                                                            le super Admin peut gérer ses entreprises
+                                                        </div>
+                                                        <div class="row col-12" >
+                                                            <span class="fa-stack">
+        <!-- The icon that will wrap the number -->
+                                                            <span style="color: #CC7832" class="fa fa-circle-o fa-stack-2x"></span>
+                                                                <!-- a strong element with the custom content, in this case a number -->
+                                                            <strong style="color: #CC7832" class="fa-stack-1x">
+                                                                2
+                                                            </strong>
+                                                        </span>
+                                                            le super Admin peut consulter le calendrier
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--/Content-->
+
+</div>
+<!-- Inner Wrapper -->
+
+<div class="sidebar-overlay" id="sidebar_overlay"></div>
+
+
+<!-- jQuery -->
+<script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{{ asset('assets/js/popper.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
+<!-- Datetimepicker JS -->
+<script src="{{ asset('assets/plugins/select2/moment.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+<!-- Select2 JS -->
+<script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
+
+<!-- Sticky sidebar JS -->
+<script src="{{ asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+<script src="{{ asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+
+<!-- Custom Js -->
+<script src="{{ asset('assets/js/script.js') }}"></script>
+<script>
+    $(document).ready(function(){
+
+        $("#linkTO").click(function(){
+            //console.log('ttt');
+            $('.link').removeClass('active text-white')
+            $(this).addClass('active text-white');
+            $("#TO").show();
+            $("#Responsable").hide();
+
+            $("#Directeur").hide();
+            $("#Admin").hide();
+            $("#SuperAdmin").hide();
+        });
+
+        $("#linkResponsable").click(function(){
+            $('.link').removeClass('active text-white')
+            $(this).addClass('active text-white');
+            $("#TO").hide();
+            $("#Responsable").show();
+
+            $("#Directeur").hide();
+            $("#Admin").hide();
+            $("#SuperAdmin").hide();
+        });
+
+        $("#linkDirecteur").click(function(){
+            $('.link').removeClass('active text-white')
+            $(this).addClass('active text-white');
+            $("#TO").hide();
+            $("#Responsable").hide();
+            $("#Directeur").show();
+            $("#Admin").hide();
+            $("#SuperAdmin").hide();
+        });
+
+        $("#linkAdmin").click(function(){
+            $('.link').removeClass('active text-white')
+            $(this).addClass('active text-white');
+            $("#TO").hide();
+            $("#Responsable").hide();
+            $("#Directeur").hide();
+            $("#Admin").show();
+            $("#SuperAdmin").hide();
+        });
+
+        $("#linkSuperAdmin").click(function(){
+            $('.link').removeClass('active text-white')
+            $(this).addClass('active text-white');
+            $("#TO").hide();
+            $("#Responsable").hide();
+            $("#Directeur").hide();
+            $("#Admin").hide();
+            $("#SuperAdmin").show();
+        });
+    })
+</script>
+</body>
+</html>
